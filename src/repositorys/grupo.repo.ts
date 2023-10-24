@@ -7,7 +7,6 @@ export default class GrupoRepository {
             const task = await prisma.grupos.findMany({
                 where:{
                     GrupEmpresa: id,
-
                 },include:{
                     Empresa: true,
                     GrupoTipo: true,

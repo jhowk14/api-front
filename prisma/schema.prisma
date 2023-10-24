@@ -62,7 +62,7 @@ model Produtos {
   ProdHoraInicial DateTime
   ProdHoraFinal DateTime
   ProdClassificacao String
-  Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID])
+  Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID], onDelete: Cascade)
   Empresa Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])
   ValoresTipo ProdutoValoresTipo[]
   CarrinhoItens CarrinhoItens[]
@@ -76,7 +76,7 @@ model GrupoTipo {
   GrTpGrupoID Int
   GrTpDescricao String
   GrTpDivisao Int
-  Grupo Grupos @relation(fields: [GrTpGrupoID], references: [GrupID])
+  Grupo Grupos @relation(fields: [GrTpGrupoID], references: [GrupID], onDelete: Cascade)
   ProdutoValoresTipo ProdutoValoresTipo[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -87,7 +87,7 @@ model ProdutoValoresTipo {
   PrVtProdID Int
   PrVtGrTpID Int
   PrVtValor Decimal
-  Produto Produtos @relation(fields: [PrVtProdID], references: [ProdID])
+  Produto Produtos @relation(fields: [PrVtProdID], references: [ProdID], onDelete: Cascade)
   TipoGrupo GrupoTipo @relation(fields: [PrVtGrTpID], references: [GrTpID])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -101,7 +101,7 @@ model Carrinho {
   CarTaxaEntrega Decimal
   CarSesToken String
   Empresa Empresas @relation(fields: [CarEmpresa], references: [EmprCodigo])
-  Sessao Sessao @relation(fields: [CarSesToken], references: [SesToken])
+  Sessao Sessao @relation(fields: [CarSesToken], references: [SesToken], onDelete: Cascade)
   CarrinhoItens CarrinhoItens[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -118,7 +118,7 @@ model CarrinhoItens {
   CarItensComplemento Decimal
   CarItensValorTotalGeral Decimal
   CarItensAgrupamento String
-  Carrinho Carrinho @relation(fields: [CarItensCarrrinhoID], references: [CarID])
+  Carrinho Carrinho @relation(fields: [CarItensCarrrinhoID], references: [CarID], onDelete: Cascade)
   Produto Produtos @relation(fields: [CarItensProdID], references: [ProdID])
   Complemento Complemento[]
   createdAt DateTime  @default(now())
@@ -131,7 +131,7 @@ model Complemento {
   CompProdID Int
   CompCarID Int
   Carrinho CarrinhoItens @relation(fields: [CompCarID], references: [CarItensID])
-  Produto Produtos @relation(fields: [CompProdID], references: [ProdID])
+  Produto Produtos @relation(fields: [CompProdID], references: [ProdID], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
