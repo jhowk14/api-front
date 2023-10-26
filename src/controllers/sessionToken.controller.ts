@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { ApiError } from '../helpers/erroHelper';
-import getSessionTokenRepo from '../repositorys/sessionToken.repo';
+import {getSessionTokenRepo} from '../repositorys/sessionToken.repo';
 
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;

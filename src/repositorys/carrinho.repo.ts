@@ -29,8 +29,8 @@ export default class CarrinhoRepository {
         return carrinho;
       }
 
-  async getCarrinhoById(id: number) {
-    return prisma.carrinho.findUnique({ where: { CarID: id },include: {
+  async getCarrinhoById(id: string) {
+    return prisma.carrinho.findMany({ where: { CarSesToken: id },include: {
         CarrinhoItens: true
     } });
   }

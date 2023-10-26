@@ -16,7 +16,7 @@ async function createCarrinho(req: Request, res: Response) {
 async function getCarrinho(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const carrinho = await carrinhoRepository.getCarrinhoById(parseInt(id, 10));
+    const carrinho = await carrinhoRepository.getCarrinhoById(id);
     if (carrinho) {
       res.json(carrinho);
     } else {

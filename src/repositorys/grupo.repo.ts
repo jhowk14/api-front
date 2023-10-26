@@ -10,7 +10,22 @@ export default class GrupoRepository {
                 },include:{
                     Empresa: true,
                     GrupoTipo: true,
-                    Produtos:true 
+                }
+            })
+            console.log(task)
+            return task;
+        } catch (e) {
+            throw new ApiError('erro ao acessar os dados'+e, 401); 
+        }
+    }
+    async getGrupoRepoID(id: number){
+        try {
+            const task = await prisma.grupos.findUnique({
+                where:{
+                    GrupID: id,
+                },include:{
+                    Empresa: true,
+                    GrupoTipo: true,
                 }
             })
             console.log(task)

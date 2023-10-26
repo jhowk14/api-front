@@ -4,6 +4,8 @@ import express from 'express'
 import cors from 'cors'
 import logger from 'morgan'
 import { errorMiddleware } from './middleware/error'
+import schedule from 'node-schedule';
+import { deleteSessionTokenRepo } from './repositorys/sessionToken.repo'
 
 export const app = express()
 app.use(express.json())
@@ -16,6 +18,17 @@ const PORT = process.env.PORT || 3001
 routes(app)
 app.use(errorMiddleware)
 const server = app.listen(PORT, () => console.log(`Servidor rodando na rota http://localhost:${PORT}`))
+
+schedule.scheduleJob('0 * * * *', () => {
+    deleteSessionTokenRepo()
+      .then((result) => {
+        console.log(`Registros expirados removidos: ${result.count}`);
+      })
+      .catch((error) => {
+        console.error('Erro ao remover registros expirados:', error);
+      });
+  });
+
 process.on('SIGINT', () => {
     console.log('Servidor encerrado')
     server.close()

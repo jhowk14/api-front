@@ -12,6 +12,7 @@ model Sessao {
   SesEmprCodigo Int
   Empresa Empresas @relation(fields: [SesEmprCodigo], references: [EmprCodigo])
   Carrinho Carrinho[]
+  expiresAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -61,7 +62,7 @@ model Produtos {
   ProdValor Decimal
   ProdHoraInicial DateTime
   ProdHoraFinal DateTime
-  ProdClassificacao String
+  ProdClassificacao Int
   Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID], onDelete: Cascade)
   Empresa Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])
   ValoresTipo ProdutoValoresTipo[]
