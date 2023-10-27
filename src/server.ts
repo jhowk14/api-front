@@ -19,13 +19,13 @@ routes(app)
 app.use(errorMiddleware)
 const server = app.listen(PORT, () => console.log(`Servidor rodando na rota http://localhost:${PORT}`))
 
-schedule.scheduleJob('0 * * * *', () => {
+schedule.scheduleJob('0 * * * *', (fireDate) => {
     deleteSessionTokenRepo()
       .then((result) => {
-        console.log(`Registros expirados removidos: ${result.count}`);
+        console.log(`Registros expirados removidos: ${result.count} Proxima limpara em ${fireDate}`);
       })
       .catch((error) => {
-        console.error('Erro ao remover registros expirados:', error);
+        console.error('Erro ao remover registros expirados: '+`Proxima limpara em ${fireDate}`, error);
       });
   });
 
