@@ -8,8 +8,8 @@ import schedule from 'node-schedule';
 import { deleteSessionTokenRepo } from './repositorys/sessionToken.repo'
 
 export const app = express()
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 app.use(logger('dev'))
 app.use(express.static('public'));
 

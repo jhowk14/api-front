@@ -2,12 +2,15 @@ import { Carrinho } from "@prisma/client";
 import prisma from "../services/prisma";
 import { ApiError } from "../helpers/erroHelper";
 import CarrinhoItensRepository, { CarrinhoItensData } from "./carrinhoItens.repo";
+import ComplementoRepository from "./complemento.repo";
+import { Decimal } from "@prisma/client/runtime/library";
 
-const carrinhoItens = new CarrinhoItensRepository()
 export type produto  = {
     Carrinho: Carrinho,
     produtos: CarrinhoItensData[]
+    complementoQtd: Decimal 
 }
+
 export default class CarrinhoRepository {
     async createCarrinho(data: produto) {
         const token = await prisma.sessao.findUnique({
@@ -18,10 +21,13 @@ export default class CarrinhoRepository {
         }
     
         const carrinho = await prisma.carrinho.create({ data: data.Carrinho });
-    
+        
+        const carrinhoItens = new CarrinhoItensRepository()
+        const complementoRepo = new ComplementoRepository();
+
         // Crie um array de promessas para criar registros CarrinhoItens
         const createCarrinhoItensPromises = data.produtos.map(async (produtoData) => {
-          return carrinhoItens.createCarrinhoItens({...produtoData, CarItensCarrrinhoID: carrinho.CarID });
+          return (carrinhoItens.createCarrinhoItens({...produtoData, CarItensCarrrinhoID: carrinho.CarID }), complementoRepo.createComplementoRepo({CompQuantidade: data.complementoQtd, CompProdID:produtoData.CarItensProdID, CompCarID: produtoData.}) )
         });
         // Execute todas as promessas em paralelo
         await Promise.all(createCarrinhoItensPromises);
@@ -44,7 +50,8 @@ export default class CarrinhoRepository {
   }
 
   async listCarrinhos() {
-    return prisma.carrinho.findMany({include: {
+    return prisma.carrinho.findMany({
+      include: {
         CarrinhoItens: true,
     }});
   }

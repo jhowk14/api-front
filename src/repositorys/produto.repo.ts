@@ -26,7 +26,8 @@ export default class ProduroRepository {
                     ProdClassificacao: 3,
                     ProdGrupo: id,
                 },include:{
-                    ValoresTipo: true
+                    ValoresTipo: true,
+                    Grupo: true
                 }
             })
             console.log(task)

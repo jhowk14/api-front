@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import CarrinhoRepository from '../repositorys/carrinho.repo';
+import { Complemento } from '@prisma/client';
 
 const carrinhoRepository = new CarrinhoRepository();
 
