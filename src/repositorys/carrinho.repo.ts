@@ -1,14 +1,13 @@
-import { Carrinho } from "@prisma/client";
+import { Carrinho, Complemento } from "@prisma/client";
 import prisma from "../services/prisma";
 import { ApiError } from "../helpers/erroHelper";
 import CarrinhoItensRepository, { CarrinhoItensData } from "./carrinhoItens.repo";
 import ComplementoRepository from "./complemento.repo";
-import { Decimal } from "@prisma/client/runtime/library";
 
 export type produto  = {
     Carrinho: Carrinho,
     produtos: CarrinhoItensData[]
-    complementoQtd: Decimal 
+    complemento: Partial<Complemento>[]
 }
 
 export default class CarrinhoRepository {
@@ -27,10 +26,22 @@ export default class CarrinhoRepository {
 
         // Crie um array de promessas para criar registros CarrinhoItens
         const createCarrinhoItensPromises = data.produtos.map(async (produtoData) => {
-          return (carrinhoItens.createCarrinhoItens({...produtoData, CarItensCarrrinhoID: carrinho.CarID }), complementoRepo.createComplementoRepo({CompQuantidade: data.complementoQtd, CompProdID:produtoData.CarItensProdID, CompCarID: produtoData.}) )
+          return carrinhoItens.createCarrinhoItens({ ...produtoData, CarItensCarrrinhoID: carrinho.CarID });
         });
-        // Execute todas as promessas em paralelo
-        await Promise.all(createCarrinhoItensPromises);
+        
+        const createComplementoItensPromises = data.complemento.map(async (complementoData) => {
+          return complementoRepo.createComplementoRepo({
+            CompCarID: carrinho.CarID,
+            CompProdID: complementoData.CompProdID,
+            CompQuantidade: complementoData.CompQuantidade,
+          });
+        });
+        
+        // Combine the two arrays of promises
+        const allPromises = [...createCarrinhoItensPromises, ...createComplementoItensPromises];
+        
+        // Execute all the promises in parallel
+        await Promise.all(allPromises);        
     
         return carrinho;
       }
