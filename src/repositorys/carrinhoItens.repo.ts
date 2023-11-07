@@ -34,7 +34,7 @@ export default class CarrinhoItensRepository {
                 }
             });
 
-            return { carrinhoItens };
+            return carrinhoItens;
         } catch (e) {
             throw e;
         }

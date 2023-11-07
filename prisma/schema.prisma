@@ -63,7 +63,7 @@ model Produtos {
   ProdHoraInicial DateTime
   ProdHoraFinal DateTime
   ProdClassificacao Int
-  Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID], onDelete: Cascade)
+  Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID])
   Empresa Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])
   ValoresTipo ProdutoValoresTipo[]
   CarrinhoItens CarrinhoItens[]
@@ -77,7 +77,7 @@ model GrupoTipo {
   GrTpGrupoID Int
   GrTpDescricao String
   GrTpDivisao Int
-  Grupo Grupos @relation(fields: [GrTpGrupoID], references: [GrupID], onDelete: Cascade)
+  Grupo Grupos @relation(fields: [GrTpGrupoID], references: [GrupID])
   ProdutoValoresTipo ProdutoValoresTipo[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -88,8 +88,8 @@ model ProdutoValoresTipo {
   PrVtProdID Int
   PrVtGrTpID Int
   PrVtValor Decimal
-  Produto Produtos @relation(fields: [PrVtProdID], references: [ProdID], onDelete: Cascade)
-  TipoGrupo GrupoTipo @relation(fields: [PrVtGrTpID], references: [GrTpID])
+  Produto Produtos @relation(fields: [PrVtProdID], references: [ProdID])
+  GrupoTipo GrupoTipo @relation(fields: [PrVtGrTpID], references: [GrTpID])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -131,8 +131,8 @@ model Complemento {
   CompQuantidade Decimal
   CompProdID Int
   CompCarID Int
-  Carrinho CarrinhoItens @relation(fields: [CompCarID], references: [CarItensID])
-  Produto Produtos @relation(fields: [CompProdID], references: [ProdID], onDelete: Cascade)
+  Carrinho CarrinhoItens @relation(fields: [CompCarID], references: [CarItensID], onDelete: Cascade)
+  Produto Produtos @relation(fields: [CompProdID], references: [ProdID])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }

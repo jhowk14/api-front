@@ -1,4 +1,4 @@
-import { Complemento } from "@prisma/client";
+import { Complemento } from "../../types/complemento";
 import { ApiError } from "../helpers/erroHelper";
 import prisma from "../services/prisma";
 
