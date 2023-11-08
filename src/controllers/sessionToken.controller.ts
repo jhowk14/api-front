@@ -43,11 +43,8 @@ export const VerifySessionToken = async (req: Request, res: Response) => {
         const decoded = verify(token, jwtSecret);
 
         // O token é válido, você pode acessar os dados do token decodificado em "decoded"
-        // Por exemplo, aqui estamos acessando o campo "ip" que foi incluído ao criar o token
-        const ip = decoded;
 
-        // Faça o que for necessário com os dados do token
-        // ...
+        const ip = decoded;
 
         res.status(200).json({ message: 'Token válido', ip });
     } catch (error) {

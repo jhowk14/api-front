@@ -6,11 +6,10 @@ const grupo = new GrupoRepository()
 
 export const getGrupo = async (req: Request, res: Response) => { 
         const id = req.params.id
-        const cacheKey = `grupo:${id}`;
+        const cacheKey = `grupos:${id}`;
         const cachedData = await redis.get(cacheKey);
         if (cachedData) {
                 res.json(JSON.parse(cachedData));
-
         }else{
         const response = await grupo.getGrupoRepo(parseInt(id));
         if(response){

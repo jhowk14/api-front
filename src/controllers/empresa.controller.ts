@@ -7,10 +7,9 @@ const empresa = new EmpresaRepository()
 
 export const getEmpresa = async (req: Request, res: Response) => { 
         const id = req.params.id
-        const cacheKey = `empresa:${id}`;
+        const cacheKey = `empresas:${id}`;
         const cachedData = await redis.get(cacheKey);
         if (cachedData) {
-                // Se os dados estiverem em cache, retorne-os
                 res.json(JSON.parse(cachedData));
         }else{
                 const response = await empresa.getEmpreseRepo(id);

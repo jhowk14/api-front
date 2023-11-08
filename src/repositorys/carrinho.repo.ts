@@ -25,7 +25,7 @@ export default class CarrinhoRepository {
     const carrinhoItens = new CarrinhoItensRepository();
     const complementoRepo = new ComplementoRepository();
 
-    const complementos = data.produtos.filter((c) => c.ProdClassificacao === 0);
+    const complementos = data.produtos.filter((c) => c.ProdClassificacao === 3);
 
     const createCarrinhoItensPromises = data.produtos.map(async (p) => {
       const total = complementos
@@ -35,13 +35,13 @@ export default class CarrinhoRepository {
       const carrinhoItemData = {
         CarItensAgrupamento: p.Grupo.GrupDescricao,
         CarItensCarrrinhoID: carrinho.CarID,
-        CarItensComplemento: complementos.length,
+        CarItensComplemento: total*1,
         CarItensObservacoes: p.observacoes || '',
         CarItensProdID: p.ProdID,
         CarItensQuantidade: p.quantidade,
-        CarItensValorProdutos: (p.ProdValor + total)*1,
-        CarItensValorTotalGeral: (p.ProdValor * p.quantidade + total)*1,
-        CarItensValorUnitario: (p.ProdValor)*1
+        CarItensValorProdutos: (p.ProdValor*1) + (total*1),
+        CarItensValorTotalGeral: (p.ProdValor*1) * (p.quantidade*1) + (total*1),
+        CarItensValorUnitario: p.ProdValor*1
       };
 
      const carrinhoItensResponse = await carrinhoItens.createCarrinhoItens(carrinhoItemData);
@@ -63,7 +63,11 @@ export default class CarrinhoRepository {
 
   async getCarrinhoById(id: string) {
     return prisma.carrinho.findMany({ where: { CarSesToken: id },include: {
-        CarrinhoItens: true
+        CarrinhoItens: {
+          include: {
+            Produto: true
+          }
+        }
     } });
   }
 
