@@ -12,7 +12,6 @@ import prisma from "../services/prisma";
                     expiresAt: hora
                 }
             })
-            console.log(task)
             return task;
         } catch (e) {
             throw new ApiError('erro ao acessar os dados'+e, 401); 

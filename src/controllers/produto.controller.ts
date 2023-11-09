@@ -7,7 +7,7 @@ const produroRepository = new ProduroRepository();
 export async function getProduro(req: Request, res: Response) {
     try {
       const {id} = req.params
-      const cacheKey = `produto:${id}`;
+      const cacheKey = `produtos:${id}`;
       const cachedData = await redis.get(cacheKey);
       if (cachedData) {
               res.status(200).json(JSON.parse(cachedData));

@@ -12,6 +12,16 @@ async function createCarrinho(req: Request, res: Response) {
     res.status(401).json({ error: 'Failed to create carrinho '+error });
   }
 }
+async function createCarrinhoID(req: Request, res: Response) {
+  try {
+    const {id} = req.params
+    const data = req.body;
+    const carrinho = await carrinhoRepository.createCarrinhoID(data, id);
+    res.json(carrinho);
+  } catch (error) {
+    res.status(401).json({ error: 'Failed to create carrinho '+error });
+  }
+}
 
 async function getCarrinho(req: Request, res: Response) {
   try {
@@ -61,4 +71,4 @@ async function listCarrinhos(req: Request, res: Response) {
   }
 }
 
-export { createCarrinho, getCarrinho, updateCarrinho, deleteCarrinho, listCarrinhos };
+export { createCarrinho, getCarrinho, updateCarrinho, deleteCarrinho, listCarrinhos , createCarrinhoID};
