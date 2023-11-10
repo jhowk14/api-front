@@ -97,6 +97,7 @@ model ProdutoValoresTipo {
 model Carrinho {
   CarID Int @id @default(autoincrement())
   CarDataHora DateTime
+  CarDescricao String
   CarValorTotal Decimal
   CarEmpresa Int
   CarTaxaEntrega Decimal
