@@ -137,8 +137,12 @@ export default class CarrinhoRepository {
     return prisma.carrinho.update({ where: { CarID: id }, data });
   }
 
-  async deleteCarrinho(id: string) {
+  async deleteCarrinhoToken(id: string) {
     return prisma.carrinho.deleteMany({ where: { CarSesToken: id } });
+  }
+
+  async deleteCarrinho(id: number) {
+    return prisma.carrinho.delete({ where: {  CarID: id } });
   }
 
   async listCarrinhos() {

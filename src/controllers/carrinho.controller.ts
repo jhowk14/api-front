@@ -53,11 +53,21 @@ async function updateCarrinho(req: Request, res: Response) {
   }
 }
 
+async function deleteCarrinhoToken(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    await carrinhoRepository.deleteCarrinhoToken(id);
+    res.json({ message: 'Carrinho deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete carrinho' });
+  }
+}
+
 async function deleteCarrinho(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    await carrinhoRepository.deleteCarrinho(id);
-    res.json({ message: 'Carrinho deleted' });
+    await carrinhoRepository.deleteCarrinho(parseFloat(id));
+    res.status(200).json({ message: 'Carrinho deleted' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete carrinho' });
   }
@@ -72,4 +82,4 @@ async function listCarrinhos(req: Request, res: Response) {
   }
 }
 
-export { createCarrinho, getCarrinho, updateCarrinho, deleteCarrinho, listCarrinhos , createCarrinhoID };
+export { createCarrinho, getCarrinho, updateCarrinho, deleteCarrinhoToken, deleteCarrinho, listCarrinhos , createCarrinhoID };
