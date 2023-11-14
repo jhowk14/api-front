@@ -7,7 +7,7 @@ const empresa = new EmpresaRepository()
 
 export const getEmpresa = async (req: Request, res: Response) => { 
         const id = req.params.id
-        const cacheKey = `empresas:${id}`;
+        const cacheKey = `empresasID:${id}`;
         const cachedData = await redis.get(cacheKey);
         if (cachedData) {
                 res.json(JSON.parse(cachedData));
@@ -23,20 +23,7 @@ export const getEmpresa = async (req: Request, res: Response) => {
 }
 export const createEmpresa = async (req: Request, res: Response) => { 
         try{
-                const empresaData: Partial<Empresas> = {
-                        CorSite: "#e31b3d",
-                        EmprBairro: "Centro",
-                        EmprCidade: "São Paulo",
-                        EmprEstado: "SP",
-                        EmprEndereco: "Avenida Paulista, 123",
-                        EmprCNPJ: "12.345.678/0001-90",
-                        EmprDivisaoSabores: true,
-                        EmprLink: "pizzaria",
-                        EmprNome: "Sua Empresa LTDA",
-                        EmprTelefone: "1198765-4321",
-                        EmprNumero: "1234",
-                      };
-                const response = await empresa.createEmpresaRepo(empresaData);
+                const response = await empresa.createEmpresaRepo();
                 res.status(200).json(response);
         }catch(e){
                 console.log(e)
