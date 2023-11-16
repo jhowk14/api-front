@@ -1,4 +1,4 @@
-import { ApiError } from "../helpers/erroHelper";
+;import { ApiError } from "../helpers/erroHelper";
 import prisma from "../services/prisma";
 import sharp from "sharp";
 import path from 'path';
