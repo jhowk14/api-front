@@ -16,6 +16,7 @@ app.use(express.static('public'));
 const PORT = process.env.PORT || 3001
 
 routes(app)
+
 app.use(errorMiddleware)
 const server = app.listen(PORT, () => console.log(`Servidor rodando na rota http://localhost:${PORT}`))
 

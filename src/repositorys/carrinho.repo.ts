@@ -122,7 +122,15 @@ export default class CarrinhoRepository {
     return prisma.carrinho.findMany({ where: { CarSesToken: id },include: {
         CarrinhoItens: {
           include: {
-            Produto: true,
+            Produto: {
+              include:{
+                Grupo: {
+                  include: {
+                    GrupoTipo: true
+                  }
+                }
+              }
+            },
             Complemento: {
               include:{
                 Produto: true

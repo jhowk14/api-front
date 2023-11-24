@@ -10,15 +10,15 @@ export async function getProduro(req: Request, res: Response) {
       const cacheKey = `produtoID:${id}`;
       const cachedData = await redis.get(cacheKey);
       if (cachedData) {
-              res.status(200).json(JSON.parse(cachedData));
+            res.status(200).json(JSON.parse(cachedData));
       }else{
-              const products = await produroRepository.getProduroRepo(parseInt(id));
-              if(products){
-                await redis.setex(cacheKey, 3600, JSON.stringify(products))
-                res.status(200).json(products);
-              }else{
-                res.status(404).json({erro: 'nao encontrada'})
-              }
+            const products = await produroRepository.getProduroRepo(parseInt(id));
+            if(products){
+              await redis.setex(cacheKey, 3600, JSON.stringify(products))
+              res.status(200).json(products);
+            }else{
+              res.status(404).json({erro: 'nao encontrada'})
+            }
       }
     } catch (e) {
       res.status(401).json({ error: 'Erro ao acessar os dados: ' + e});
