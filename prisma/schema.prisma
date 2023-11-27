@@ -137,3 +137,40 @@ model Complemento {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
+
+model Pedidos {
+  PedidoID            Int       @id @default(autoincrement())
+  PedidoData          DateTime
+  PedidoTotal         Decimal
+  PedidoCliNome       String
+  PedidoCliEndereco   String
+  PedidoCliTelefone   String
+  PedidoCliMetodo     String
+  EmpresaID           String
+  PedidoItens         PedidoItens[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model PedidoItens {
+  PedItensID            Int       @id @default(autoincrement())
+  PedItensDescricao     String
+  PedItensValor         Decimal
+  PedItensNome          String
+  PedidoID              Int
+  Pedidos               Pedidos   @relation(fields: [PedidoID], references: [PedidoID])
+  PedidoComplementos    PedidoComplementos[]
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model PedidoComplementos {
+  PedComID         Int           @id @default(autoincrement())
+  PedComNome       String
+  PedComQtd        Int
+  PedItensID       Int
+  PedidoItens      PedidoItens  @relation(fields: [PedItensID], references: [PedItensID])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+

@@ -83,7 +83,7 @@ export default class CarrinhoRepository {
 
     const carrinhoItensResponses: CarrinhoItens[] = [];
     const createCarrinhoItensPromises = data.produtos.map(async (p) => {
-      const total = complementos
+      const total = complementos 
         .filter((c) => c.produtoId === p.ProdID)
         .reduce((a, b) => a + b.ProdValor * b.quantidade, 0);
 
