@@ -51,7 +51,7 @@ export default class CarrinhoRepository {
 
   await Promise.all(createCarrinhoItensPromises);
 
-   const complementoPromise = data.produtos.map(async(s)=>{
+  const complementoPromise = data.produtos.map(async(s)=>{
      if(s.ProdClassificacao === 3){
         let b = carrinhoItensResponses.find(a => a.CarItensProdID == s.produtoId)
         await complementoRepo.createComplementoRepo({
@@ -60,7 +60,7 @@ export default class CarrinhoRepository {
           CompQuantidade: s.quantidade
         });
       }
-    })
+  })
 
   await Promise.all(complementoPromise);
 

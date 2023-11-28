@@ -8,169 +8,170 @@ datasource db {
 }
 
 model Sessao {
-  SesToken String @id
-  SesEmprCodigo Int
-  Empresa Empresas @relation(fields: [SesEmprCodigo], references: [EmprCodigo])
-  Carrinho Carrinho[]
-  expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
-model Empresas {
-  EmprCodigo Int @id @default(autoincrement())
-  EmprNome String
-  EmprCNPJ String @unique
-  EmprLink String @unique
-  EmprLogotipo Bytes
-  EmprImagemCabecalho Bytes
-  EmprEndereco String
-  EmprNumero String
-  EmprBairro String
-  EmprCidade String
-  CorSite String
-  EmprEstado String
-  EmprTelefone String
-  EmprDivisaoSabores Boolean
-  Sessoes Sessao[]
-  Grupos Grupos[]
-  Produtos Produtos[]
-  Carrinho Carrinho[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  SesToken                  String @id
+  SesEmprCodigo             Int
+  Empresa                   Empresas @relation(fields: [SesEmprCodigo], references: [EmprCodigo])
+  Carrinho                  Carrinho[]
+  expiresAt                 DateTime?
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+} 
+  
+model Empresas {  
+  EmprCodigo                Int @id @default(autoincrement())
+  EmprNome                  String
+  EmprCNPJ                  String @unique
+  EmprLink                  String @unique
+  EmprLogotipo              Bytes
+  EmprImagemCabecalho       Bytes   
+  EmprEndereco              String
+  EmprNumero                String
+  EmprBairro                String
+  EmprCidade                String
+  CorSite                   String
+  EmprEstado                String
+  EmprTelefone              String
+  EmprDivisaoSabores        Boolean
+  Sessoes                   Sessao[]
+  Grupos                    Grupos[]
+  Produtos                  Produtos[]
+  Carrinho                  Carrinho[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model Grupos {
-  GrupID Int @id @default(autoincrement())
-  GrupCodigo Int
-  GrupDescricao String
-  GrupEmpresa Int
-  Empresa Empresas @relation(fields: [GrupEmpresa], references: [EmprCodigo])
-  Produtos Produtos[]
-  GrupoTipo GrupoTipo[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
+  GrupID                    Int @id @default(autoincrement())
+  GrupCodigo                Int
+  GrupDescricao             String
+  GrupEmpresa               Int
+  Empresa                   Empresas @relation(fields: [GrupEmpresa], references: [EmprCodigo])
+  Produtos                  Produtos[]
+  GrupoTipo                 GrupoTipo[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+} 
 
-model Produtos {
-  ProdID Int @id @default(autoincrement())
-  ProdGrupo Int
-  ProdEmpresa Int
-  ProdCodigo Int
-  ProdEspecificacoes String
-  ProdDescricao String
-  ProdValor Decimal
-  ProdHoraInicial DateTime
-  ProdHoraFinal DateTime
-  ProdClassificacao Int
-  Grupo Grupos @relation(fields: [ProdGrupo], references: [GrupID])
-  Empresa Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])
-  ValoresTipo ProdutoValoresTipo[]
-  CarrinhoItens CarrinhoItens[]
-  Complementos Complemento[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+model Produtos {  
+  ProdID                    Int @id @default(autoincrement())
+  ProdGrupo                 Int
+  ProdEmpresa               Int
+  ProdCodigo                Int
+  ProdEspecificacoes        String
+  ProdDescricao             String
+  ProdValor                 Decimal
+  ProdHoraInicial           DateTime
+  ProdHoraFinal             DateTime
+  ProdClassificacao         Int
+  Grupo                     Grupos @relation(fields: [ProdGrupo], references: [GrupID])
+  Empresa                   Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])
+  ValoresTipo               ProdutoValoresTipo[]
+  CarrinhoItens             CarrinhoItens[]
+  Complementos              Complemento[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model GrupoTipo {
-  GrTpID Int @id @default(autoincrement())
-  GrTpGrupoID Int
-  GrTpDescricao String
-  GrTpDivisao Int
-  Grupo Grupos @relation(fields: [GrTpGrupoID], references: [GrupID])
-  ProdutoValoresTipo ProdutoValoresTipo[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  GrTpID                    Int @id @default(autoincrement())
+  GrTpGrupoID               Int
+  GrTpDescricao             String
+  GrTpDivisao               Int
+  Grupo                     Grupos @relation(fields: [GrTpGrupoID], references: [GrupID])
+  ProdutoValoresTipo        ProdutoValoresTipo[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model ProdutoValoresTipo {
-  PrVtID Int @id @default(autoincrement())
-  PrVtProdID Int
-  PrVtGrTpID Int
-  PrVtValor Decimal
-  Produto Produtos @relation(fields: [PrVtProdID], references: [ProdID])
-  GrupoTipo GrupoTipo @relation(fields: [PrVtGrTpID], references: [GrTpID])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  PrVtID                    Int @id @default(autoincrement())
+  PrVtProdID                Int
+  PrVtGrTpID                Int
+  PrVtValor                 Decimal
+  Produto                   Produtos @relation(fields: [PrVtProdID], references: [ProdID])
+  GrupoTipo                 GrupoTipo @relation(fields: [PrVtGrTpID], references: [GrTpID])
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model Carrinho {
-  CarID Int @id @default(autoincrement())
-  CarDataHora DateTime
-  CarDescricao String
-  CarValorTotal Decimal
-  CarEmpresa Int
-  CarTaxaEntrega Decimal
-  CarSesToken String
-  Empresa Empresas @relation(fields: [CarEmpresa], references: [EmprCodigo])
-  Sessao Sessao @relation(fields: [CarSesToken], references: [SesToken], onDelete: Cascade)
-  CarrinhoItens CarrinhoItens[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  CarID                     Int @id @default(autoincrement())
+  CarDataHora               DateTime
+  CarDescricao              String
+  CarValorTotal             Decimal
+  CarEmpresa                Int
+  CarQtd                    Int?
+  CarTaxaEntrega            Decimal
+  CarSesToken               String
+  Empresa                   Empresas @relation(fields: [CarEmpresa], references: [EmprCodigo])
+  Sessao                    Sessao @relation(fields: [CarSesToken], references: [SesToken], onDelete: Cascade)
+  CarrinhoItens             CarrinhoItens[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model CarrinhoItens {
-  CarItensID Int @id @default(autoincrement())
-  CarItensCarrrinhoID Int
-  CarItensProdID Int
-  CarItensQuantidade Decimal
-  CarItensValorUnitario Decimal
-  CarItensValorProdutos Decimal
-  CarItensObservacoes String
-  CarItensComplemento Decimal
-  CarItensValorTotalGeral Decimal
-  CarItensAgrupamento String
-  Carrinho Carrinho @relation(fields: [CarItensCarrrinhoID], references: [CarID], onDelete: Cascade)
-  Produto Produtos @relation(fields: [CarItensProdID], references: [ProdID])
-  Complemento Complemento[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  CarItensID                Int @id @default(autoincrement())
+  CarItensCarrrinhoID       Int
+  CarItensProdID            Int
+  CarItensQuantidade        Decimal
+  CarItensValorUnitario     Decimal
+  CarItensValorProdutos     Decimal
+  CarItensObservacoes       String
+  CarItensComplemento       Decimal
+  CarItensValorTotalGeral   Decimal
+  CarItensAgrupamento       String
+  Carrinho                  Carrinho @relation(fields: [CarItensCarrrinhoID], references: [CarID], onDelete: Cascade)
+  Produto                   Produtos @relation(fields: [CarItensProdID], references: [ProdID])
+  Complemento               Complemento[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model Complemento {
-  CompID Int @id @default(autoincrement())
-  CompQuantidade Decimal
-  CompProdID Int
-  CompCarID Int
-  Carrinho CarrinhoItens @relation(fields: [CompCarID], references: [CarItensID], onDelete: Cascade)
-  Produto Produtos @relation(fields: [CompProdID], references: [ProdID])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  CompID                    Int @id @default(autoincrement())
+  CompQuantidade            Decimal
+  CompProdID                Int
+  CompCarID                 Int
+  Carrinho                  CarrinhoItens @relation(fields: [CompCarID], references: [CarItensID], onDelete: Cascade)
+  Produto                   Produtos @relation(fields: [CompProdID], references: [ProdID])
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model Pedidos {
-  PedidoID            Int       @id @default(autoincrement())
-  PedidoData          DateTime
-  PedidoTotal         Decimal
-  PedidoCliNome       String
-  PedidoCliEndereco   String
-  PedidoCliTelefone   String
-  PedidoCliMetodo     String
-  EmpresaID           String
-  PedidoItens         PedidoItens[]
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-}
+  PedidoID                  Int       @id @default(autoincrement())
+  PedidoData                DateTime
+  PedidoTotal               Decimal
+  PedidoCliNome             String
+  PedidoCliEndereco         String
+  PedidoCliTelefone         String
+  PedidoCliMetodo           String
+  EmpresaID                 String
+  PedidoItens               PedidoItens[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+} 
 
 model PedidoItens {
-  PedItensID            Int       @id @default(autoincrement())
-  PedItensDescricao     String
-  PedItensValor         Decimal
-  PedItensNome          String
-  PedidoID              Int
-  Pedidos               Pedidos   @relation(fields: [PedidoID], references: [PedidoID])
-  PedidoComplementos    PedidoComplementos[]
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  PedItensID                Int       @id @default(autoincrement())
+  PedItensDescricao         String
+  PedItensValor             Decimal
+  PedItensNome              String
+  PedidoID                  Int
+  Pedidos                   Pedidos   @relation(fields: [PedidoID], references: [PedidoID])
+  PedidoComplementos        PedidoComplementos[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
 model PedidoComplementos {
-  PedComID         Int           @id @default(autoincrement())
-  PedComNome       String
-  PedComQtd        Int
-  PedItensID       Int
-  PedidoItens      PedidoItens  @relation(fields: [PedItensID], references: [PedItensID])
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  PedComID                  Int           @id @default(autoincrement())
+  PedComNome                String
+  PedComQtd                 Int
+  PedItensID                Int
+  PedidoItens               PedidoItens  @relation(fields: [PedItensID], references: [PedItensID])
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
