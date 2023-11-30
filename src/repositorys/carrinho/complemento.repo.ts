@@ -1,6 +1,6 @@
-import { Complemento } from "../../types/complemento";
-import { ApiError } from "../helpers/erroHelper";
-import prisma from "../services/prisma";
+import { Complemento } from "../../../types/complemento";
+import { ApiError } from "../../helpers/erroHelper";
+import prisma from "../../services/prisma";
 
 export default class ComplementoRepository {
     async createComplementoRepo(complemento: Partial<Complemento>){

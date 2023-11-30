@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import EmpresaRepository from '../repositorys/empresa.repo';
+import EmpresaRepository from '../../repositorys/empresa/empresa.repo';
 import { Empresas } from '@prisma/client';
-import { redis } from '../services/redis';
+import { redis } from '../../services/redis';
 
 const empresa = new EmpresaRepository()
 

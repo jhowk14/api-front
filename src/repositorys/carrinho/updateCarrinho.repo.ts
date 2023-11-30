@@ -1,6 +1,6 @@
 import { Carrinho, CarrinhoItens } from "@prisma/client";
-import { ApiError } from "../helpers/erroHelper";
-import prisma from "../services/prisma";
+import { ApiError } from "../../helpers/erroHelper";
+import prisma from "../../services/prisma";
 
    export async function UpdateCarrinhoRepo(carrinho: {CarID: number, CarValorTotal: number}, qtd: number | null, data: Partial<CarrinhoItens> = {}){
         try {

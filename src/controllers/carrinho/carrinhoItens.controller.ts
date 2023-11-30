@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import CarrinhoItensRepository from '../repositorys/carrinhoItens.repo';
+import CarrinhoItensRepository from '../../repositorys/carrinho/carrinhoItens.repo';
 
 const carrinhoItensRepository = new CarrinhoItensRepository();
 

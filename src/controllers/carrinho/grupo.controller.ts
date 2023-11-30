@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import GrupoRepository from '../repositorys/grupo.repo';
-import { redis } from '../services/redis';
+import GrupoRepository from '../../repositorys/carrinho/grupo.repo';
+import { redis } from '../../services/redis';
 
 const grupo = new GrupoRepository()
 

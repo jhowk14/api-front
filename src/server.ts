@@ -5,7 +5,7 @@ import cors from 'cors'
 import logger from 'morgan'
 import { errorMiddleware } from './middleware/error'
 import schedule from 'node-schedule';
-import { deleteSessionTokenRepo } from './repositorys/sessionToken.repo'
+import { deleteSessionTokenRepo } from './repositorys/empresa/sessionToken.repo'
 
 export const app = express()
 app.use(cors())

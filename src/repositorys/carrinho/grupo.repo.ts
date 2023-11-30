@@ -1,5 +1,5 @@
-import { ApiError } from "../helpers/erroHelper";
-import prisma from "../services/prisma";
+import { ApiError } from "../../helpers/erroHelper";
+import prisma from "../../services/prisma";
 
 export default class GrupoRepository {
     async getGrupoRepo(id: number){

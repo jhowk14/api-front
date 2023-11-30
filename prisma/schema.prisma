@@ -28,6 +28,8 @@ model Empresas {
   EmprNumero                String
   EmprBairro                String
   EmprCidade                String
+  EmprInicioExpediente      DateTime? @db.Time
+  EmprFimExpediente         DateTime? @db.Time
   CorSite                   String
   EmprEstado                String
   EmprTelefone              String
@@ -60,8 +62,8 @@ model Produtos {
   ProdEspecificacoes        String
   ProdDescricao             String
   ProdValor                 Decimal
-  ProdHoraInicial           DateTime
-  ProdHoraFinal             DateTime
+  ProdHoraInicial           DateTime? @db.Time
+  ProdHoraFinal             DateTime? @db.Time
   ProdClassificacao         Int
   Grupo                     Grupos @relation(fields: [ProdGrupo], references: [GrupID])
   Empresa                   Empresas @relation(fields: [ProdEmpresa], references: [EmprCodigo])

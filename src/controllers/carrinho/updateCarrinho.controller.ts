@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UpdateCarrinhoRepo } from '../repositorys/updateCarrinho.repo';
+import { UpdateCarrinhoRepo } from '../../repositorys/carrinho/updateCarrinho.repo';
 
 export async function UpdateCarrinho(req: Request, res: Response) {
   try {

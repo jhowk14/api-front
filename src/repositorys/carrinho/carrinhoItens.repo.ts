@@ -1,4 +1,4 @@
-import prisma from "../services/prisma";
+import prisma from "../../services/prisma";
 import { z } from 'zod';
 
 export const createCarrinhoItensSchema = z.object({

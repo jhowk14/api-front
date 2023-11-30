@@ -1,9 +1,9 @@
 import { Carrinho, CarrinhoItens } from "@prisma/client";
-import prisma from "../services/prisma";
-import { ApiError } from "../helpers/erroHelper";
+import prisma from "../../services/prisma";
+import { ApiError } from "../../helpers/erroHelper";
 import CarrinhoItensRepository, { CarrinhoItensData } from "./carrinhoItens.repo";
 import ComplementoRepository from "./complemento.repo";
-import { Produto } from "../../types/Produto";
+import { Produto } from "../../../types/Produto";
 
 export type produtos  = {
     carrinho: Carrinho,
@@ -15,7 +15,7 @@ export default class CarrinhoRepository {
     const token = await prisma.sessao.findUnique({
       where: { SesToken: data.carrinho.CarSesToken }
     });
-    console.log(data)
+
     if (token?.SesEmprCodigo !== data.carrinho.CarEmpresa) {
       throw new ApiError('Token inválido para a empresa', 401);
     }
