@@ -141,39 +141,56 @@ model Complemento {
   updatedAt                 DateTime  @updatedAt
 }
 
-model Pedidos {
-  PedidoID                  Int       @id @default(autoincrement())
-  PedidoData                DateTime
-  PedidoTotal               Decimal
-  PedidoCliNome             String
-  PedidoCliEndereco         String
-  PedidoCliTelefone         String
-  PedidoCliMetodo           String
-  EmpresaID                 String
-  PedidoItens               PedidoItens[]
+model Pedido {
+  id                        Int       @id @default(autoincrement())
+  empresa                   String
+  dataHora                  DateTime
+  totalPedido               Decimal
+  taxaEntrega               Decimal
+  formaPagamento            String
+  clienteNome               String
+  clienteCep                String
+  clienteEndereco           String
+  clienteNumero             String
+  clienteComplemento        String
+  clienteBairro             String
+  clienteCidade             String
+  clienteEstado             String
+  clienteTelefone           String
+  status                    Int
+  dataHoraImportacao        DateTime
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
-} 
+  itens                     PedidoItem[]
+}
 
-model PedidoItens {
-  PedItensID                Int       @id @default(autoincrement())
-  PedItensDescricao         String
-  PedItensValor             Decimal
-  PedItensNome              String
-  PedidoID                  Int
-  Pedidos                   Pedidos   @relation(fields: [PedidoID], references: [PedidoID])
-  PedidoComplementos        PedidoComplementos[]
+model PedidoItem {
+  id                        Int       @id @default(autoincrement())
+  pedidoId                  Int
+  pedido                    Pedido    @relation(fields: [pedidoId], references: [id])
+  produto                   String
+  quantidade                Decimal
+  valorUnitario             Decimal
+  valorProduto              Decimal
+  observacoes               String
+  totalComplementos         Decimal
+  valorTotal                Decimal
+  agrupamento               String
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+  complementos              PedidoItemComplemento[]
+}
+
+model PedidoItemComplemento {
+  id                        Int       @id @default(autoincrement())
+  pedidoItemId              Int
+  pedidoItem                PedidoItem @relation(fields: [pedidoItemId], references: [id])
+  produtoComplemento        String
+  quantidadeComplemento     Int
+  valorUnitarioComplemento  Decimal
+  valorTotalComplemento     Decimal
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
 }
 
-model PedidoComplementos {
-  PedComID                  Int           @id @default(autoincrement())
-  PedComNome                String
-  PedComQtd                 Int
-  PedItensID                Int
-  PedidoItens               PedidoItens  @relation(fields: [PedItensID], references: [PedItensID])
-  createdAt                 DateTime  @default(now())
-  updatedAt                 DateTime  @updatedAt
-}
 

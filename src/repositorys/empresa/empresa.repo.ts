@@ -16,7 +16,10 @@ export default class EmpresaRepository {
             console.log(imageLogo)
             const novaEmpresa = await prisma.empresas.update({
                 where:{
-                    EmprCodigo: 1
+                    EmprCodigo: 1,
+                    EmprInicioExpediente: {
+                        gte: new Date()
+                    }
                 },
                 data: {
                     EmprImagemCabecalho: ImagemCabecalho!,
