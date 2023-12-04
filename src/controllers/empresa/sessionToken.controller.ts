@@ -16,8 +16,6 @@ export const GetsessionToken = async (req: Request, res: Response) => {
             throw new ApiError("JWT secret Not defined", 500)
         }
 
-        console.log(ip)
-    
         const token = sign({ ip }, jwtSecret, {
             expiresIn: '1h',
         });

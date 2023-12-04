@@ -1,10 +1,10 @@
-import empresaRoute from "./empresa.routes";
+import empresaRoute from "./empresa/empresa.routes";
 import { Application } from 'express'; 
-import grupoRoute from "./grupo.routes";
-import sessionToken from "./sessionToken.routes";
-import carrinhoRoute from "./carrinho.routes";
-import produtoRoute from "./produto.routes";
-import carrinhoItensRoute from "./carrinhoItens.routes";
+import grupoRoute from "./produto/grupo.routes";
+import sessionToken from "./empresa/sessionToken.routes";
+import carrinhoRoute from "./carrinho/carrinho.routes";
+import produtoRoute from "./produto/produto.routes";
+import carrinhoItensRoute from "./carrinho/carrinhoItens.routes";
 
 const routes = (app: Application) => {
     empresaRoute(app)

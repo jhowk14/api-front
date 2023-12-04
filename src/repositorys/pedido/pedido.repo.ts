@@ -1,55 +1,44 @@
-import { PedidoItens } from "@prisma/client";
-import { ApiError } from "../../helpers/erroHelper"; // Importe ApiError
 import prisma from "../../services/prisma";
-import PedidoComplementoRepository from "./pedidoComplemento.repo";
-import PedidoItensRepository from "./pedidoItens.repo";
+import PedidoComplementoRepository, { PedidoComplementos } from "./pedidoComplemento.repo";
+import PedidoItensRepository, { PedidoItens } from "./pedidoItens.repo";
+
+type Pedidos = {
+  PedidoID: number
+  EmpresaID: string
+  PedidoData: Date
+  PedidoTotal: number
+  PedidoCliNome: string
+  PedidoCliEndereco: string
+  PedidoCliTelefone: string
+  PedidoCliMetodo: string
+}
+
+export type DataPedido = {
+  Pedido: Pedidos
+  PedidoItens: PedidoItens[]
+  PedidoComplementos: PedidoComplementos[]
+}
 
 export default class PedidoRepository {
-  async createPedido(data: any) { 
-    const token = await prisma.sessao.findUnique({
-      where: { SesToken: data.carrinho.CarSesToken }
+  async createPedido(data: DataPedido) { 
+
+    const pedido = await prisma.pedidos.create({ data: data.Pedido })
+
+    const pedidoItens = new PedidoItensRepository()
+    const pedidoComplementoRepo = new PedidoComplementoRepository()
+
+    const createPedidoItensPromises = data.PedidoItens.map(async (item) => {
+      return pedidoItens.createPedidoItens({ ...item, PedidoID: pedido.PedidoID })
     });
 
-    if (token?.SesEmprCodigo !== data.carrinho.CarEmpresa) {
-      throw new ApiError('Token inválido para a empresa', 401);
-    }
+    const pedidoItensResponses = await Promise.all(createPedidoItensPromises)
 
-    const pedido = await prisma.pedidos.create({ data });
-
-    const pedidoItens = new PedidoItensRepository();
-    const pedidoComplementoRepo = new PedidoComplementoRepository();
-
-    const complementos = data.produtos.filter((c: any) => c.ProdClassificacao === 3);
-
-    const pedidoItensResponses: PedidoItens[] = [];
-    const createPedidoItensPromises = data.produtos.map(async (p: any) => {
-      const total = complementos
-        .filter((c: any) => c.produtoId === p.ProdID)
-        .reduce((a: any, b: any) => a + b.ProdValor * b.quantidade, 0);
-
-      const pedidoItemData = {
-        PedItensDescricao: p.Grupo.GrupDescricao,
-        PedItensValor:1,
-        PedItensNome: p.ProdNome,
-        PedidoID: pedido.PedidoID,
-        /* outros campos necessários para PedidoItens */
-      };
-
-      const pedidoItemResponse = await pedidoItens.createPedidoItens(data);
-      pedidoItensResponses.push(pedidoItemResponse);
+    const createPedidoComplementoPromises = data.PedidoComplementos.map(async (complemento) => {
+      const pedido = pedidoItensResponses.find(a => a.prodID == complemento.prodID)?.pedidoItensResponse
+      return pedidoComplementoRepo.createPedidoComplemento({ ...complemento, PedItensID: pedido?.PedItensID!})
     });
 
-    await Promise.all(createPedidoItensPromises);
-
-    const complementoPromise = data.produtos.map(async (s: any) => {
-      if (s.ProdClassificacao === 3) {
-        let b = pedidoItensResponses.find((a: any) => a.PedItensProdID == s.produtoId);
-        await pedidoComplementoRepo.createPedidoComplemento(data);
-      }
-    });
-
-    await Promise.all(complementoPromise);
-
+    await Promise.all(createPedidoComplementoPromises)
     return { pedido };
   }
 }

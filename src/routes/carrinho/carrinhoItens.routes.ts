@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { atualizarCarrinho, deleteCarrinhoItens } from '../controllers/carrinho/carrinhoItens.controller';
+import { atualizarCarrinho, deleteCarrinhoItens } from '../../controllers/carrinho/carrinhoItens.controller';
 
 const carrinhoItensRoute = (app: Application) => {
     app.delete('/carrinhoItens/:id', deleteCarrinhoItens);

@@ -1,6 +1,6 @@
 import { Application } from 'express';
-import { createCarrinho, deleteCarrinho, getCarrinho, listCarrinhos, updateCarrinho, createCarrinhoID, deleteCarrinhoToken } from '../controllers/carrinho/carrinho.controller';
-import { UpdateCarrinho } from '../controllers/carrinho/updateCarrinho.controller';
+import { createCarrinho, deleteCarrinho, getCarrinho, listCarrinhos, updateCarrinho, createCarrinhoID, deleteCarrinhoToken } from '../../controllers/carrinho/carrinho.controller';
+import { UpdateCarrinho } from '../../controllers/carrinho/updateCarrinho.controller';
 
 const carrinhoRoute = (app: Application) => {
     app.post('/carrinhos', createCarrinho);
