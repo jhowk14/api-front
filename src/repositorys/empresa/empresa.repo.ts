@@ -7,8 +7,8 @@ export default class EmpresaRepository {
     async createEmpresaRepo() {
         try {
 
-            const image1 = path.resolve(__dirname, '../public', 'unnamed.png');
-            const image2 = path.resolve(__dirname, '../public', 'Afinal-o-que-e-bella-capri-e-por-que-esse-nome.png');
+            const image1 = path.resolve(__dirname, '../../public', 'logo.png');
+            const image2 = path.resolve(__dirname, '../../public', 'Bella-Capri-2.jpeg');
             console.log(image1)
             const imageLogo = await this.saveImageToDatabase(image1)
             const ImagemCabecalho = await this.saveImageToDatabase(image2)
@@ -17,9 +17,6 @@ export default class EmpresaRepository {
             const novaEmpresa = await prisma.empresas.update({
                 where:{
                     EmprCodigo: 1,
-                    EmprInicioExpediente: {
-                        gte: new Date()
-                    }
                 },
                 data: {
                     EmprImagemCabecalho: ImagemCabecalho!,

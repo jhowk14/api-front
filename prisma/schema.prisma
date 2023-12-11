@@ -150,6 +150,7 @@ model Pedido {
   formaPagamento            String
   clienteNome               String
   clienteCep                String
+  clienteTroco              Decimal?
   clienteEndereco           String
   clienteNumero             String
   clienteComplemento        String
@@ -175,7 +176,8 @@ model PedidoItem {
   observacoes               String
   totalComplementos         Decimal
   valorTotal                Decimal
-  agrupamento               String
+  agrupamento               Decimal
+  quantidadeAgrupamento     Decimal
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
   complementos              PedidoItemComplemento[]

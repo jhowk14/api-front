@@ -1,18 +1,20 @@
-// PedidoItensRepository.ts
-import { Decimal } from "@prisma/client/runtime/library";
+import { PedidoItem } from "../../../types/pedidos";
 import prisma from "../../services/prisma";
 
-export type PedidoItens = {
-  PedItensDescricao: string;
-  PedItensValor: number;
-  PedItensNome: string;
-  PedidoID: number;
-  prodID: number;
-}
-
 export default class PedidoItensRepository {
-  async createPedidoItens(data: PedidoItens) {
-    const pedidoItensResponse = await prisma.pedidoItens.create({ data })
+  async createPedidoItens(data: PedidoItem) {
+    const pedidoItensResponse = await prisma.pedidoItem.create({data:{
+        agrupamento: data.agrupamento,
+        quantidadeAgrupamento: data.quantidadeAgrupamento,
+        observacoes: data.observacoes,
+        produto: data.produto,
+        quantidade: data.quantidade,
+        totalComplementos: data.totalComplementos,
+        valorProduto: data.valorProduto,
+        valorTotal: data.valorTotal,
+        valorUnitario: data.valorUnitario,
+        pedidoId: data.pedidoId
+    }})
     return {pedidoItensResponse, prodID: data.prodID}
   }
 }

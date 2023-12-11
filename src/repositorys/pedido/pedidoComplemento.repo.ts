@@ -1,15 +1,16 @@
+import { PedidoItemComplemento } from "../../../types/pedidos";
 import prisma from "../../services/prisma";
 
-export type PedidoComplementos = {
-  PedComNome: string;
-  PedComQtd: number;
-  prodID: number;
-  PedItensID: number;
-}
-
 export default class PedidoComplementoRepository {
-  async createPedidoComplemento(data: PedidoComplementos) {
-    return prisma.pedidoComplementos.create({ data });
-  }
-
+  async createPedidoComplemento(data: PedidoItemComplemento) {
+    return prisma.pedidoItemComplemento.create({
+      data: {
+        produtoComplemento: data.produtoComplemento,
+        quantidadeComplemento: data.quantidadeComplemento,
+        valorTotalComplemento: data.valorTotalComplemento,
+        valorUnitarioComplemento: data.valorUnitarioComplemento,
+        pedidoItemId: data.pedidoItemId
+      }
+    })
+}
 }

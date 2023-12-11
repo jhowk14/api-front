@@ -1,4 +1,4 @@
-import { Carrinho, CarrinhoItens } from "@prisma/client";
+import { CarrinhoItens } from "@prisma/client";
 import { ApiError } from "../../helpers/erroHelper";
 import prisma from "../../services/prisma";
 

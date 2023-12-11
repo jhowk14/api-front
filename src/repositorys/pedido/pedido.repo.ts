@@ -1,44 +1,35 @@
+import { Pedido, PedidoItem, PedidoItemComplemento } from "../../../types/pedidos";
 import prisma from "../../services/prisma";
-import PedidoComplementoRepository, { PedidoComplementos } from "./pedidoComplemento.repo";
-import PedidoItensRepository, { PedidoItens } from "./pedidoItens.repo";
-
-type Pedidos = {
-  PedidoID: number
-  EmpresaID: string
-  PedidoData: Date
-  PedidoTotal: number
-  PedidoCliNome: string
-  PedidoCliEndereco: string
-  PedidoCliTelefone: string
-  PedidoCliMetodo: string
-}
+import PedidoComplementoRepository from "./pedidoComplemento.repo";
+import PedidoItensRepository from "./pedidoItens.repo";
 
 export type DataPedido = {
-  Pedido: Pedidos
-  PedidoItens: PedidoItens[]
-  PedidoComplementos: PedidoComplementos[]
+  Pedido: Pedido
+  PedidoItens: PedidoItem[]
+  PedidoComplementos: PedidoItemComplemento[]
 }
 
 export default class PedidoRepository {
   async createPedido(data: DataPedido) { 
 
-    const pedido = await prisma.pedidos.create({ data: data.Pedido })
+    const pedido = await prisma.pedido.create({ data: data.Pedido })
 
     const pedidoItens = new PedidoItensRepository()
     const pedidoComplementoRepo = new PedidoComplementoRepository()
 
     const createPedidoItensPromises = data.PedidoItens.map(async (item) => {
-      return pedidoItens.createPedidoItens({ ...item, PedidoID: pedido.PedidoID })
+      return pedidoItens.createPedidoItens({ ...item, pedidoId: pedido.id })
     });
 
     const pedidoItensResponses = await Promise.all(createPedidoItensPromises)
 
     const createPedidoComplementoPromises = data.PedidoComplementos.map(async (complemento) => {
       const pedido = pedidoItensResponses.find(a => a.prodID == complemento.prodID)?.pedidoItensResponse
-      return pedidoComplementoRepo.createPedidoComplemento({ ...complemento, PedItensID: pedido?.PedItensID!})
+      return pedidoComplementoRepo.createPedidoComplemento({ ...complemento, pedidoItemId: pedido?.id! })
     });
 
     await Promise.all(createPedidoComplementoPromises)
+
     return { pedido };
   }
 }
