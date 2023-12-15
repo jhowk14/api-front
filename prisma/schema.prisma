@@ -142,7 +142,7 @@ model Complemento {
 }
 
 model Pedido {
-  id                        Int       @id @default(autoincrement())
+  id                        String       @id @default(uuid())
   empresa                   String
   dataHora                  DateTime
   totalPedido               Decimal
@@ -167,7 +167,7 @@ model Pedido {
 
 model PedidoItem {
   id                        Int       @id @default(autoincrement())
-  pedidoId                  Int
+  pedidoId                  String
   pedido                    Pedido    @relation(fields: [pedidoId], references: [id])
   produto                   String
   quantidade                Decimal

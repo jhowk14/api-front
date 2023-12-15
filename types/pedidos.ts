@@ -19,7 +19,7 @@ export type Pedido = {
   };
   
   export type PedidoItem = {
-    pedidoId: number;
+    pedidoId: string;
     produto: string;
     quantidade: number;
     valorUnitario: number;

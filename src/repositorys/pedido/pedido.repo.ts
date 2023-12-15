@@ -32,4 +32,26 @@ export default class PedidoRepository {
 
     return { pedido };
   }
+
+  async getPedidoById(id: string) {
+    const pedido = await prisma.pedido.findUnique({ where: { id }, include:{
+        itens:{
+          include:{
+            complementos: true
+          }
+        }}});
+
+    if (!pedido) {
+      throw new Error(`Pedido com ID ${id} não encontrado.`);
+    }
+
+    return { pedido };
+  }
+  async updatePedido(id: string, data: DataPedido) {
+    const pedido = await prisma.pedido.update({
+      where: { id },
+      data: { ...data.Pedido },
+    });
+    return { pedido };
+  }
 }

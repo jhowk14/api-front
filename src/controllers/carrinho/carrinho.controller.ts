@@ -9,6 +9,7 @@ async function createCarrinho(req: Request, res: Response) {
     const carrinho = await carrinhoRepository.createCarrinho(data);
     res.json(carrinho);
   } catch (error) {
+    console.log(error);
     res.status(401).json({ error: 'Failed to create carrinho '+error });
   }
 }
