@@ -21,6 +21,8 @@ export type Pedido = {
   export type PedidoItem = {
     pedidoId: string;
     produto: string;
+    grupoTipo: boolean
+    nomeAgrupamento: string
     quantidade: number;
     valorUnitario: number;
     valorProduto: number;

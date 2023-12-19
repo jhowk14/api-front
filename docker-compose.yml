@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: api-oh-pedidos
+    image: jhowk14/api-front-app:0.1
     restart: unless-stopped
     ports:
       - "3001:3001"

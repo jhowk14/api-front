@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url = env("DATABASE_URL")
 }
 
@@ -172,11 +172,13 @@ model PedidoItem {
   pedido                    Pedido    @relation(fields: [pedidoId], references: [id])
   produto                   String
   quantidade                Decimal
+  grupoTipo                 Boolean
   valorUnitario             Decimal
   valorProduto              Decimal
   observacoes               String
   totalComplementos         Decimal
   valorTotal                Decimal
+  nomeAgrupamento           String
   agrupamento               Decimal
   quantidadeAgrupamento     Decimal
   createdAt                 DateTime  @default(now())
