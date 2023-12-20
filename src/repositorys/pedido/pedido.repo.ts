@@ -37,7 +37,7 @@ export default class PedidoRepository {
     const pedido = await prisma.pedido.findUnique({ where: { id }, include:{
         itens:{
           include:{
-            complementos: true
+            complementos: true,
           }
         }}});
 

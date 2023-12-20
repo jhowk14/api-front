@@ -145,6 +145,7 @@ model Complemento {
 model Pedido {
   id                        String       @id @default(uuid())
   empresa                   String
+  empresaTelefone           String
   dataHora                  DateTime
   totalPedido               Decimal
   taxaEntrega               Decimal

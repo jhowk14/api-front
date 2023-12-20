@@ -55,7 +55,7 @@ export default class ProduroRepository {
                     ValoresTipo: true,
                     Grupo: true
                 }
-            });
+            })
             return produto;
         } catch (error) {
             console.error("Erro ao acessar os dados:", error);

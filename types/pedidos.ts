@@ -1,5 +1,6 @@
 export type Pedido = {
     empresa: string;
+    empresaTelefone: string;
     dataHora: Date;
     totalPedido: number;
     taxaEntrega: number;
