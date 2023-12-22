@@ -1,7 +1,5 @@
 ;import { ApiError } from "../../helpers/erroHelper";
 import prisma from "../../services/prisma";
-import sharp from "sharp";
-import path from 'path';
 import { Empresas } from "@prisma/client";
 
 export default class EmpresaRepository {

@@ -11,7 +11,6 @@ export default class GrupoRepository {
                     GrupEmpresa: id,
                 },
                 include: {
-                    Empresa: true,
                     GrupoTipo: true,
                 },
             });

@@ -1,4 +1,5 @@
 import { Pedido, PedidoItem, PedidoItemComplemento } from "../../../types/pedidos";
+import { ApiError } from "../../helpers/erroHelper";
 import prisma from "../../services/prisma";
 import PedidoComplementoRepository from "./pedidoComplemento.repo";
 import PedidoItensRepository from "./pedidoItens.repo";
@@ -42,7 +43,7 @@ export default class PedidoRepository {
         }}});
 
     if (!pedido) {
-      throw new Error(`Pedido com ID ${id} não encontrado.`);
+      throw new ApiError(`Pedido com ID ${id} não encontrado.`,404);
     }
 
     return { pedido };

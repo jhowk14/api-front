@@ -1,7 +1,7 @@
 import { Carrinho, CarrinhoItens } from "@prisma/client";
 import prisma from "../../services/prisma";
 import { ApiError } from "../../helpers/erroHelper";
-import CarrinhoItensRepository, { CarrinhoItensData } from "./carrinhoItens.repo";
+import CarrinhoItensRepository from "./carrinhoItens.repo";
 import ComplementoRepository from "../produto/complemento.repo";
 import { Produto } from "../../../types/Produto";
 
