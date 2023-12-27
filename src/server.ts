@@ -35,6 +35,7 @@ const swaggerOptions = {
 };
 
 const specs = swaggerJsdoc(swaggerOptions)
+
 routes(app);
 
 app.use(errorMiddleware);
@@ -42,8 +43,9 @@ app.use(errorMiddleware);
 app.get('/api', (req, res) => {
   return res.send(specs)
 })
+
 app.get('/api-docs', (req, res) => {
-  const filePath = path.join(__dirname, 'docs', 'index.html');
+  const filePath = path.join(__dirname, '../docs', 'index.html');
   res.sendFile(filePath);
 });
 
@@ -57,9 +59,4 @@ schedule.scheduleJob('0 * * * *', (fireDate) => {
     .catch((error) => {
       console.error('Erro ao remover registros expirados: ' + `Próxima limpeza em ${fireDate}`, error);
     });
-});
-
-process.on('SIGINT', () => {
-  console.log('Servidor encerrado');
-  server.close();
 });

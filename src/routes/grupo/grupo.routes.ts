@@ -115,6 +115,7 @@ const grupoRoute = (app: Application) => {
    *       404:
    *         description: Group not found
    */
+  
   app.put('/grupo/:id', updateGrupo);
 
   /**
