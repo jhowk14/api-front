@@ -6,6 +6,7 @@ import {
   getProdutoValoresTipoById,
   updateProdutoValoresTipo,
 } from '../../controllers/produto/produtoTipo.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 /**
  * @swagger
@@ -27,7 +28,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: No product values types found
    */
-  app.get('/produtoValoresTipos', getAllProdutoValoresTipos);
+  app.get('/produtoValoresTipos', verifyTokenMiddleware, getAllProdutoValoresTipos);
 
   /**
    * @swagger
@@ -47,7 +48,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: Product values type not found
    */
-  app.get('/produtoValoresTipos/:id', getProdutoValoresTipoById);
+  app.get('/produtoValoresTipos/:id', verifyTokenMiddleware, getProdutoValoresTipoById);
 
   /**
    * @swagger
@@ -64,7 +65,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       201:
    *         description: Product values type created
    */
-  app.post('/produtoValoresTipos', createProdutoValoresTipo);
+  app.post('/produtoValoresTipos', verifyTokenMiddleware, createProdutoValoresTipo);
 
   /**
    * @swagger
@@ -89,7 +90,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: Product values type not found
    */
-  app.put('/produtoValoresTipos/:id', updateProdutoValoresTipo);
+  app.put('/produtoValoresTipos/:id', verifyTokenMiddleware, updateProdutoValoresTipo);
 
   /**
    * @swagger
@@ -109,7 +110,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: Product values type not found
    */
-  app.delete('/produtoValoresTipos/:id', deleteProdutoValoresTipo);
+  app.delete('/produtoValoresTipos/:id', verifyTokenMiddleware,  deleteProdutoValoresTipo);
 };
 
 export default produtoValoresTipoRoute;

@@ -131,6 +131,7 @@ import {
   deleteCarrinhoToken,
 } from '../../controllers/carrinho/carrinho.controller';
 import { UpdateCarrinho } from '../../controllers/carrinho/updateCarrinho.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 /**
  * @swagger
@@ -155,7 +156,7 @@ const carrinhoRoute = (app: Application) => {
    *       201:
    *         description: Shopping cart created
    */
-  app.post('/carrinhos', createCarrinho);
+  app.post('/carrinhos', verifyTokenMiddleware, createCarrinho);
 
   /**
    * @swagger
@@ -178,7 +179,7 @@ const carrinhoRoute = (app: Application) => {
    *       201:
    *         description: Shopping cart created
    */
-  app.post('/carrinhos/:id', createCarrinhoID);
+  app.post('/carrinhos/:id', verifyTokenMiddleware, createCarrinhoID);
 
   /**
    * @swagger
@@ -198,7 +199,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart not found
    */
-  app.get('/carrinhos/:id', getCarrinho);
+  app.get('/carrinhos/:id', verifyTokenMiddleware, getCarrinho);
 
   /**
    * @swagger
@@ -223,7 +224,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart not found
    */
-  app.put('/carrinhos/:id', updateCarrinho);
+  app.put('/carrinhos/:id', verifyTokenMiddleware, updateCarrinho);
 
   /**
    * @swagger
@@ -243,7 +244,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart not found
    */
-  app.delete('/carrinhos/:id', deleteCarrinhoToken);
+  app.delete('/carrinhos/:id', verifyTokenMiddleware, deleteCarrinhoToken);
 
   /**
    * @swagger
@@ -263,7 +264,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart not found
    */
-  app.delete('/carrinhoID/:id', deleteCarrinho);
+  app.delete('/carrinhoID/:id', verifyTokenMiddleware, deleteCarrinho);
 
   /**
    * @swagger
@@ -277,7 +278,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: No shopping carts found
    */
-  app.get('/carrinhos', listCarrinhos);
+  app.get('/carrinhos', verifyTokenMiddleware, listCarrinhos);
 
   /**
    * @swagger
@@ -312,7 +313,7 @@ const carrinhoRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart not found
    */
-  app.put('/UpdateCarrinho', UpdateCarrinho);
+  app.put('/UpdateCarrinho', verifyTokenMiddleware, UpdateCarrinho);
 };
 
 export default carrinhoRoute;

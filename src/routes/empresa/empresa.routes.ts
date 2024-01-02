@@ -73,6 +73,7 @@
 
 import { Application } from 'express';
 import { createEmpresa, getEmpresa, updateEmpresa, deleteEmpresa, getAllEmpresa } from '../../controllers/empresa/empresa.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 const empresaRoute = (app: Application) => {
   /**
@@ -107,11 +108,11 @@ const empresaRoute = (app: Application) => {
    *       404:
    *         description: No companies found
    */
-  app.get('/empresa', getAllEmpresa);
+  app.get('/Allempresa', verifyTokenMiddleware, getAllEmpresa);
 
   /**
    * @swagger
-   * /empresa:
+   * /Allempresa:
    *   post:
    *     summary: Create a new company
    *     tags: [Empresa]
@@ -124,7 +125,7 @@ const empresaRoute = (app: Application) => {
    *       201:
    *         description: Company created
    */
-  app.post('/empresa', createEmpresa);
+  app.post('/empresa', verifyTokenMiddleware, createEmpresa);
 
   /**
    * @swagger
@@ -149,7 +150,7 @@ const empresaRoute = (app: Application) => {
    *       404:
    *         description: Company not found
    */
-  app.put('/empresa/:id', updateEmpresa);
+  app.put('/empresa/:id', verifyTokenMiddleware, updateEmpresa);
 
   /**
    * @swagger
@@ -169,7 +170,7 @@ const empresaRoute = (app: Application) => {
    *       404:
    *         description: Company not found
    */
-  app.delete('/empresa/:id', deleteEmpresa);
+  app.delete('/empresa/:id', verifyTokenMiddleware, deleteEmpresa);
 };
 
 export default empresaRoute;

@@ -69,6 +69,7 @@ import {
   updateProduto,
   deleteProduto,
 } from '../../controllers/produto/produto.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 const produtoRoute = (app: Application) => {
 
@@ -92,7 +93,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product not found
    * 
    */
-  app.get('/produtos/:id', getProduro);
+  app.get('/produtos/:id', verifyTokenMiddleware, getProduro);
 
   /**
    * @swagger
@@ -114,7 +115,7 @@ const produtoRoute = (app: Application) => {
    *         description: Complemento not found
    *   
    */
-  app.get('/complementos/:id', getComplemento);
+  app.get('/complementos/:id', verifyTokenMiddleware, getComplemento);
 
   /**
    * @swagger
@@ -136,7 +137,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product not found
    *   
    */
-  app.get('/produto/:id', getProdutoById);
+  app.get('/produto/:id', verifyTokenMiddleware ,getProdutoById);
 
   /**
    * @swagger
@@ -155,7 +156,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product created
    *  
    */
-  app.post('/produto', createProduto);
+  app.post('/produto', verifyTokenMiddleware, createProduto);
 
   /**
    * @swagger
@@ -198,7 +199,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product not found
    *  
    */
-  app.delete('/produto/:id', deleteProduto);
+  app.delete('/produto/:id', verifyTokenMiddleware, deleteProduto);
 };
 
 export default produtoRoute;

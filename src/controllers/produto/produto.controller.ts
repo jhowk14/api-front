@@ -7,7 +7,7 @@ const produroRepository = new ProduroRepository();
 export async function getProduro(req: Request, res: Response) {
     try {
         const { id } = req.params;
-        const cacheKey = `produroID:${id}`;
+        const cacheKey = `produroID:${id}:${req.userId}`;
         const cachedData = await redis.get(cacheKey);
 
         if (cachedData) {
@@ -29,7 +29,7 @@ export async function getProduro(req: Request, res: Response) {
 export async function getComplemento(req: Request, res: Response) {
     try {
         const { id } = req.params;
-        const cacheKey = `complementoID:${id}`;
+        const cacheKey = `complementoID:${id}:${req.userId}`;
         const cachedData = await redis.get(cacheKey);
 
         if (cachedData) {

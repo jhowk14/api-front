@@ -30,8 +30,9 @@ export const verifyTokenMiddleware = (req: Request, res: Response, next: NextFun
         // ...
 
         // Adicione os dados do token decodificado à solicitação para uso posterior
-        req.userId = ip;
-
+        // @ts-ignore
+        req.userId = ip.EmprCodigo;
+        
         next(); // Avance para a próxima função/middleware
     } catch (error) {
         // Se a verificação do token falhar, você pode lidar com o erro aqui

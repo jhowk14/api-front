@@ -33,6 +33,7 @@
 
 import { Application } from 'express';
 import { getGrupo, getGrupoid, createGrupo, updateGrupo, deleteGrupo } from '../../controllers/grupo/grupo.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 const grupoRoute = (app: Application) => {
   /**
@@ -53,7 +54,7 @@ const grupoRoute = (app: Application) => {
    *       404:
    *         description: Group not found
    */
-  app.get('/grupo/:id', getGrupo);
+  app.get('/grupo/:id', verifyTokenMiddleware, getGrupo);
 
   /**
    * @swagger
@@ -73,7 +74,7 @@ const grupoRoute = (app: Application) => {
    *       404:
    *         description: Group not found
    */
-  app.get('/grupoid/:id', getGrupoid);
+  app.get('/grupoid/:id', verifyTokenMiddleware, getGrupoid);
 
   /**
    * @swagger
@@ -90,7 +91,7 @@ const grupoRoute = (app: Application) => {
    *       201:
    *         description: Group created
    */
-  app.post('/grupo', createGrupo);
+  app.post('/grupo', verifyTokenMiddleware, createGrupo);
 
   /**
    * @swagger
@@ -116,7 +117,7 @@ const grupoRoute = (app: Application) => {
    *         description: Group not found
    */
   
-  app.put('/grupo/:id', updateGrupo);
+  app.put('/grupo/:id', verifyTokenMiddleware, updateGrupo);
 
   /**
    * @swagger
@@ -136,7 +137,7 @@ const grupoRoute = (app: Application) => {
    *       404:
    *         description: Group not found
    */
-  app.delete('/grupo/:id', deleteGrupo);
+  app.delete('/grupo/:id', verifyTokenMiddleware, deleteGrupo);
 };
 
 export default grupoRoute;

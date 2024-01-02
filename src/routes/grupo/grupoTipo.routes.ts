@@ -118,6 +118,7 @@ import {
   updateGrupoTipo,
   deleteGrupoTipo,
 } from '../../controllers/grupo/grupoTipo.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 const grupoTipoRoute = (app: Application) => {
   /**
@@ -132,7 +133,7 @@ const grupoTipoRoute = (app: Application) => {
    *       404:
    *         description: No group types found
    */
-  app.get('/grupoTipos', getAllGrupoTipos);
+  app.get('/grupoTipos', verifyTokenMiddleware, getAllGrupoTipos);
 
   /**
    * @swagger
@@ -152,7 +153,7 @@ const grupoTipoRoute = (app: Application) => {
    *       404:
    *         description: Group type not found
    */
-  app.get('/grupoTipos/:id', getGrupoTipoById);
+  app.get('/grupoTipos/:id', verifyTokenMiddleware, getGrupoTipoById);
 
   /**
    * @swagger
@@ -169,7 +170,7 @@ const grupoTipoRoute = (app: Application) => {
    *       201:
    *         description: Group type created
    */
-  app.post('/grupoTipos', createGrupoTipo);
+  app.post('/grupoTipos', verifyTokenMiddleware, createGrupoTipo);
 
   /**
    * @swagger
@@ -194,7 +195,7 @@ const grupoTipoRoute = (app: Application) => {
    *       404:
    *         description: Group type not found
    */
-  app.put('/grupoTipos/:id', updateGrupoTipo);
+  app.put('/grupoTipos/:id', verifyTokenMiddleware, updateGrupoTipo);
 
   /**
    * @swagger
@@ -214,7 +215,7 @@ const grupoTipoRoute = (app: Application) => {
    *       404:
    *         description: Group type not found
    */
-  app.delete('/grupoTipos/:id', deleteGrupoTipo);
+  app.delete('/grupoTipos/:id', verifyTokenMiddleware,deleteGrupoTipo);
 };
 
 export default grupoTipoRoute;

@@ -6,14 +6,13 @@ const grupo = new GrupoRepository();
 
 export const getGrupo = async (req: Request, res: Response) => { 
     try {
-        const id = req.params.id;
-        const cacheKey = `grupoID:${id}`;
+        const cacheKey = `grupoID:${req.userId}`;
         const cachedData = await redis.get(cacheKey);
 
         if (cachedData) {
             res.json(JSON.parse(cachedData));
         } else {
-            const response = await grupo.getGruposByEmpresa(parseInt(id));
+            const response = await grupo.getGruposByEmpresa(req.userId);
 
             if (response) {
                 await redis.setex(cacheKey, 3600, JSON.stringify(response));
@@ -31,7 +30,7 @@ export const getGrupo = async (req: Request, res: Response) => {
 export const getGrupoid = async (req: Request, res: Response) => { 
     try {
         const id = req.params.id;
-        const cacheKey = `grupo:${id}`;
+        const cacheKey = `grupo:${id}:${req.userId}`;
         const cachedData = await redis.get(cacheKey);
 
         if (cachedData) {

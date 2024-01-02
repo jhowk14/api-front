@@ -16,7 +16,7 @@ export const GetsessionToken = async (req: Request, res: Response) => {
             throw new ApiError("JWT secret Not defined", 500)
         }
 
-        const token = sign({ ip }, jwtSecret, {
+        const token = sign({ ip, EmprCodigo }, jwtSecret, {
             expiresIn: '1h',
         });
 
@@ -26,9 +26,9 @@ export const GetsessionToken = async (req: Request, res: Response) => {
 }
 export const VerifySessionToken = async (req: Request, res: Response) => {
     // Verifique se o token JWT está presente no cabeçalho Authorization
-    const token = req.headers.authorization?.split(' ')[1];
-    console.log(token)
-    if (!token) {
+    const tokenBearer = req.headers.authorization?.split(' ')[1];
+    console.log(tokenBearer)
+    if (!tokenBearer) {
         return res.status(401).json({ error: 'Token não fornecido' });
     }
 
@@ -38,13 +38,9 @@ export const VerifySessionToken = async (req: Request, res: Response) => {
 
     try {
         // Verifique a autenticidade do token
-        const decoded = verify(token, jwtSecret);
+        const token = verify(tokenBearer, jwtSecret);
 
-        // O token é válido, você pode acessar os dados do token decodificado em "decoded"
-
-        const ip = decoded;
-
-        res.status(200).json({ message: 'Token válido', ip });
+        res.status(200).json({ token });
     } catch (error) {
         // Se a verificação do token falhar, você pode lidar com o erro aqui
         res.status(401).json({ error: 'Token inválido' });

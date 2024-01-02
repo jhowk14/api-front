@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import { atualizarCarrinho, deleteCarrinhoItens } from '../../controllers/carrinho/carrinhoItens.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 /**
  * @swagger
@@ -63,7 +64,7 @@ const carrinhoItensRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart item not found
    */
-  app.delete('/carrinhoItens/:id', deleteCarrinhoItens);
+  app.delete('/carrinhoItens/:id', verifyTokenMiddleware, deleteCarrinhoItens);
 
   /**
    * @swagger
@@ -88,7 +89,7 @@ const carrinhoItensRoute = (app: Application) => {
    *       404:
    *         description: Shopping cart item not found
    */
-  app.put('/carrinhoItens/:id', atualizarCarrinho);
+  app.put('/carrinhoItens/:id', verifyTokenMiddleware, atualizarCarrinho);
 };
 
 export default carrinhoItensRoute;
