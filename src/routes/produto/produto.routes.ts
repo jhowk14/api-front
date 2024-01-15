@@ -68,18 +68,48 @@ import {
   createProduto,
   updateProduto,
   deleteProduto,
+  getProduroByEmpresa,
 } from '../../controllers/produto/produto.controller';
 import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
+import { authenticateToken } from '../../middleware/admMiddleware';
 
 const produtoRoute = (app: Application) => {
-
+/**
+ * @swagger
+ * /produto/{id}:
+ *   put:
+ *     summary: Update a product by ID
+ *     tags:
+ *       - Produtos
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: string
+ *         description: ID of the product
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Produto"
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: Product not found
+ */
+app.put('/produto/:id', authenticateToken, updateProduto);
   /**
    * @swagger
    * /produtos/{id}:
    *   get:
-   *     summary: Get a product by ID
+   *     summary: Get a product by ID grupo
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -94,6 +124,29 @@ const produtoRoute = (app: Application) => {
    * 
    */
   app.get('/produtos/:id', verifyTokenMiddleware, getProduro);
+    /**
+   * @swagger
+   * /Allprodutos/{id}:
+   *   get:
+   *     summary: Get a product by Empresa ID
+   *     tags:
+   *       - Produtos
+   *     security:
+   *       - BearerAuth: []
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         required: true
+   *         type: string
+   *         description: ID of the product
+   *     responses:
+   *       200:
+   *         description: Successful operation
+   *       404:
+   *         description: Product not found
+   * 
+   */
+  app.get('/Allprodutos/:id', authenticateToken, getProduroByEmpresa);
 
   /**
    * @swagger
@@ -102,6 +155,8 @@ const produtoRoute = (app: Application) => {
    *     summary: Get a complemento by ID
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -121,9 +176,11 @@ const produtoRoute = (app: Application) => {
    * @swagger
    * /produto/{id}:
    *   get:
-   *     summary: Get a product by ID
+   *     summary: Get a product by ID grupo
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -146,6 +203,8 @@ const produtoRoute = (app: Application) => {
    *     summary: Create a new product
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -156,7 +215,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product created
    *  
    */
-  app.post('/produto', verifyTokenMiddleware, createProduto);
+  app.post('/produto', authenticateToken, createProduto);
 
   /**
    * @swagger
@@ -165,6 +224,8 @@ const produtoRoute = (app: Application) => {
    *     summary: Update a product by ID
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -186,6 +247,8 @@ const produtoRoute = (app: Application) => {
    *     summary: Delete a product by ID
    *     tags:
    *       - Produtos
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -199,7 +262,7 @@ const produtoRoute = (app: Application) => {
    *         description: Product not found
    *  
    */
-  app.delete('/produto/:id', verifyTokenMiddleware, deleteProduto);
+  app.delete('/produto/:id', authenticateToken, deleteProduto);
 };
 
 export default produtoRoute;

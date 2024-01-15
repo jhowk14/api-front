@@ -30,21 +30,19 @@ export const getEmpresa = async (req: Request, res: Response) => {
 
 export const getAllEmpresa = async (req: Request, res: Response) => { 
         try {
-            const cacheKey = `AllEmpresas`;
-            const cachedData = await redis.get(cacheKey);
-    
-            if (cachedData) {
-                res.json(JSON.parse(cachedData));
-            } else {
-                const response = await empresa.getAllEmpresa();
+            if(req.user.adm){
+            const id = req.params.id;
+                const response = await empresa.getAllEmpresa(id);
     
                 if (response) {
-                    await redis.setex(cacheKey, 3600, JSON.stringify(response));
                     res.status(200).json(response);
                 } else {
                     res.status(404).json({ error: 'Empresa not found' });
                 }
-            }
+            
+        }else{
+            res.status(401).json({error: 'sem permisão'});
+        }
         } catch (error) {
             console.error('Error in getEmpresa:', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -53,9 +51,13 @@ export const getAllEmpresa = async (req: Request, res: Response) => {
 
 export const createEmpresa = async (req: Request, res: Response) => { 
     try {
+        if(req.user.adm){
         const data = req.body;
         const response = await empresa.createEmpresa(data);
         res.status(201).json(response);
+    }else{
+        res.status(401).json({error: 'sem permisão'});
+        }
     } catch (error) {
         console.error('Error in createEmpresa:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -64,14 +66,17 @@ export const createEmpresa = async (req: Request, res: Response) => {
 
 export const updateEmpresa = async (req: Request, res: Response) => { 
     try {
+        if(req.user.adm){
         const id = req.params.id;
         const data = req.body;
-        const response = await empresa.updateEmpresa(id, data);
+        const response = await empresa.updateEmpresa(parseInt(id), data);
 
         if (response) {
             res.status(200).json(response);
         } else {
             res.status(404).json({ error: 'Empresa not found' });
+        }}else{
+            res.status(401).json({error: 'sem permisão'});
         }
     } catch (error) {
         console.error('Error in updateEmpresa:', error);
@@ -81,13 +86,16 @@ export const updateEmpresa = async (req: Request, res: Response) => {
 
 export const deleteEmpresa = async (req: Request, res: Response) => { 
     try {
+        if(req.user.adm){
         const id = req.params.id;
-        const response = await empresa.deleteEmpresa(id);
+        const response = await empresa.deleteEmpresa(parseInt(id));
 
         if (response) {
             res.status(200).json(response);
         } else {
             res.status(404).json({ error: 'Empresa not found' });
+        }}else{
+            res.status(401).json({error: 'sem permisão'});
         }
     } catch (error) {
         console.error('Error in deleteEmpresa:', error);

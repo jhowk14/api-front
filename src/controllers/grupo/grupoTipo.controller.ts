@@ -27,11 +27,30 @@ export async function getGrupoTipoById(req: Request, res: Response) {
     }
 }
 
+export async function getGrupoTipoByGrupo(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const grupoTipo = await grupoTipoRepository.getGrupoTipoByGrupo(parseInt(id));
+
+        if (grupoTipo) {
+            res.status(200).json(grupoTipo);
+        } else {
+            res.status(404).json({ error: 'Tipo de Grupo não encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao obter o tipo de grupo por ID: ' + error });
+    }
+}
+
 export async function createGrupoTipo(req: Request, res: Response) {
     try {
-        const data = req.body;
-        const novoGrupoTipo = await grupoTipoRepository.createGrupoTipo(data);
-        res.status(201).json(novoGrupoTipo);
+        if(req.user.adm){
+            const data = req.body;
+            const novoGrupoTipo = await grupoTipoRepository.createGrupoTipo(data);
+            res.status(201).json(novoGrupoTipo);
+        }else{
+            res.status(401).json({error: 'sem permisão'});
+        }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criar tipo de grupo: ' + error });
     }
@@ -39,6 +58,7 @@ export async function createGrupoTipo(req: Request, res: Response) {
 
 export async function updateGrupoTipo(req: Request, res: Response) {
     try {
+        if(req.user.adm){
         const { id } = req.params;
         const data = req.body;
         const grupoTipoAtualizado = await grupoTipoRepository.updateGrupoTipo(parseInt(id), data);
@@ -48,6 +68,9 @@ export async function updateGrupoTipo(req: Request, res: Response) {
         } else {
             res.status(404).json({ error: 'Tipo de Grupo não encontrado' });
         }
+    }else{
+        res.status(401).json({error: 'sem permisão'});
+    }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar tipo de grupo: ' + error });
     }
@@ -55,6 +78,7 @@ export async function updateGrupoTipo(req: Request, res: Response) {
 
 export async function deleteGrupoTipo(req: Request, res: Response) {
     try {
+        if(req.user.adm){
         const { id } = req.params;
         const grupoTipoExcluido = await grupoTipoRepository.deleteGrupoTipo(parseInt(id));
 
@@ -62,6 +86,9 @@ export async function deleteGrupoTipo(req: Request, res: Response) {
             res.status(200).json(grupoTipoExcluido);
         } else {
             res.status(404).json({ error: 'Tipo de Grupo não encontrado' });
+        }
+    }else{
+        res.status(401).json({error: 'sem permisão'});
         }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao excluir tipo de grupo: ' + error });

@@ -26,7 +26,21 @@ export default class GrupoTipoRepository {
             throw new ApiError('Erro ao acessar os dados', 401);
         }
     }
-
+    async getGrupoTipoByGrupo(id: number) {
+        try {
+            const grupoTipo = await prisma.grupoTipo.findMany({
+                where: {
+                    Grupo:{
+                        GrupEmpresa: id
+                    }
+                },
+            });
+            return grupoTipo;
+        } catch (error) {
+            console.error("Erro ao acessar os dados:", error);
+            throw new ApiError('Erro ao acessar os dados', 401);
+        }
+    }
     async createGrupoTipo(data: GrupoTipo) {
         try {
             const novoGrupoTipo = await prisma.grupoTipo.create({

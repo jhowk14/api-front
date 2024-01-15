@@ -8,10 +8,12 @@ import carrinhoItensRoute from "./carrinho/carrinhoItens.routes";
 import pedidoRoute from "./pedido/pedido.routes";
 import grupoTipoRoute from "./grupo/grupoTipo.routes";
 import produtoValoresTipoRoute from "./produto/produtoTipo.routes";
+import administracaoRoute from "./administracao/adm.routes";
 
 const routes = (app: Application) => {
     empresaRoute(app)
     grupoRoute(app)
+    administracaoRoute(app)
     sessionToken(app)
     carrinhoRoute(app)
     produtoRoute(app)

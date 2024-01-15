@@ -8,6 +8,15 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
+model Administracao {
+  id       Int      @id @default(autoincrement())
+  usuario  String   @unique
+  senha    String
+  adm      Boolean?
+  empresa  Empresas? @relation(fields: [empresaId], references: [EmprCodigo])
+  empresaId Int?
+}
+
 model Sessao {
   SesToken                  String @id
   SesEmprCodigo             Int
@@ -18,7 +27,7 @@ model Sessao {
   updatedAt                 DateTime  @updatedAt
 } 
   
-model Empresas {  
+model Empresas {
   EmprCodigo                Int @id @default(autoincrement())
   EmprNome                  String
   EmprCNPJ                  String @unique
@@ -39,6 +48,7 @@ model Empresas {
   Grupos                    Grupos[]
   Produtos                  Produtos[]
   Carrinho                  Carrinho[]
+  Administradores           Administracao[]
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
 }

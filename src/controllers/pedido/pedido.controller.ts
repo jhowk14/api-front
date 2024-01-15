@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import PedidoRepository, { DataPedido } from "../../repositorys/pedido/pedido.repo";
+import PedidoRepository from "../../repositorys/pedido/pedido.repo";
 
 const pedidoRepository = new PedidoRepository();
 
@@ -19,6 +19,17 @@ export const getPedidoById = async (req: Request, res: Response) => {
     const pedido = await pedidoRepository.getPedidoById(pedidoId);
 
     res.status(200).json(pedido);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+
+};
+export const deletePedido = async (req: Request, res: Response) => {
+  try {
+    const pedidoId = req.params.id
+    const pedido = await pedidoRepository.deletePedido(pedidoId);
+
+    res.status(200).json({message: 'Pedido Deletado'});
   } catch (error) {
     res.status(500).json({ error: error });
   }

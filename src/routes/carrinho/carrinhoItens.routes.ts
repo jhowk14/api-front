@@ -52,6 +52,8 @@ const carrinhoItensRoute = (app: Application) => {
    *   delete:
    *     summary: Delete a shopping cart item by ID
    *     tags: [Carrinho Itens]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -72,6 +74,8 @@ const carrinhoItensRoute = (app: Application) => {
    *   put:
    *     summary: Update a shopping cart item by ID
    *     tags: [Carrinho Itens]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path

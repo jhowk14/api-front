@@ -17,13 +17,41 @@ export default class EmpresaRepository {
             throw new ApiError('Erro ao acessar os dados', 500);
         }
     }
-    async getAllEmpresa() {
+
+    async getAllEmpresa(termo: string | null = null) {
         try {
-            const empresa = await prisma.empresas.findMany();
-            return empresa;
+            let empresas;
+    
+            // Verificar se o termo é uma string não vazia
+            if (termo) {
+                const isNumeric = !isNaN(Number(termo));
+    
+                if (isNumeric) {
+                    // Pesquisar por ID
+                    empresas = await prisma.empresas.findMany({
+                        where: {
+                            EmprCodigo: parseInt(termo),
+                        },
+                    });
+                } else {
+                    // Pesquisar por nome ignorando o caso das letras
+                    empresas = await prisma.empresas.findMany({
+                        where: {
+                            EmprNome: {
+                                contains: termo
+                            },
+                        },
+                    });
+                }
+            } else {
+                // Caso o termo seja uma string vazia, retorne todas as empresas
+                empresas = await prisma.empresas.findMany();
+            }
+    
+            return empresas;
         } catch (error) {
-            console.error("Erro ao acessar os dados:", error);
-            throw new ApiError('Erro ao acessar os dados', 500);
+            console.error(error);
+            throw new ApiError(`${error}`, 500);
         }
     }
 
@@ -41,11 +69,11 @@ export default class EmpresaRepository {
     }
 
     // Método para atualizar uma empresa existente
-    async updateEmpresa(id: string, data: { /* Campos a serem atualizados */ }) {
+    async updateEmpresa(id: number, data: { /* Campos a serem atualizados */ }) {
         try {
             const empresaAtualizada = await prisma.empresas.update({
                 where: {
-                    EmprLink: id,
+                    EmprCodigo: id,
                 },
                 data,
             });
@@ -55,13 +83,30 @@ export default class EmpresaRepository {
             throw new ApiError("Erro ao atualizar empresa", 500);
         }
     }
-
+    async updateImageEmpresa(id: string, data: { EmprLogotipo: Buffer, EmprImagemCabecalho: Buffer }) {
+        try {
+            const empresaAtualizada = await prisma.empresas.update({
+                where: {
+                    EmprLink: id,
+                },
+                data:{
+                    EmprLogotipo: data.EmprLogotipo,
+                    EmprImagemCabecalho: data.EmprImagemCabecalho
+                }
+            });
+            return empresaAtualizada;
+        } catch (error) {
+            console.error("Erro ao atualizar empresa:", error);
+            throw new ApiError("Erro ao atualizar empresa", 500);
+        }
+    }
+    
     // Método para excluir uma empresa
-    async deleteEmpresa(id: string) {
+    async deleteEmpresa(id: number) {
         try {
             const empresaExcluida = await prisma.empresas.delete({
                 where: {
-                    EmprLink: id,
+                    EmprCodigo: id,
                 },
             });
             return empresaExcluida;

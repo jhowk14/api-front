@@ -74,103 +74,126 @@
 import { Application } from 'express';
 import { createEmpresa, getEmpresa, updateEmpresa, deleteEmpresa, getAllEmpresa } from '../../controllers/empresa/empresa.controller';
 import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
+import { authenticateToken } from '../../middleware/admMiddleware';
 
 const empresaRoute = (app: Application) => {
-  /**
-   * @swagger
-   * /empresa/{id}:
-   *   get:
-   *     summary: Get a company by ID
-   *     tags: [Empresa]
-   *     parameters:
-   *       - name: id
-   *         in: path
-   *         required: true
-   *         type: string
-   *         description: ID of the company
-   *     responses:
-   *       200:
-   *         description: Successful operation
-   *       404:
-   *         description: Company not found
-   */
-  app.get('/empresa/:id', getEmpresa);
+/**
+ * @swagger
+ * /AllEmpresa:
+ *   get:
+ *     summary: Get all companies
+ *     tags: [Empresa]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: No companies found
+ */
+app.get('/AllEmpresa', authenticateToken, getAllEmpresa);
+/**
+ * @swagger
+ * /AllEmpresa/{id}:
+ *   get:
+ *     summary: Get all companies
+ *     tags: [Empresa]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: No companies found
+ */
+app.get('/AllEmpresa/:id', authenticateToken, getAllEmpresa);   // Corrigido o caminho
 
-  /**
-   * @swagger
-   * /empresa:
-   *   get:
-   *     summary: Get all companies
-   *     tags: [Empresa]
-   *     responses:
-   *       200:
-   *         description: Successful operation
-   *       404:
-   *         description: No companies found
-   */
-  app.get('/Allempresa', verifyTokenMiddleware, getAllEmpresa);
+/**
+ * @swagger
+ * /empresa/{id}:
+ *   get:
+ *     summary: Get a company by ID
+ *     tags: [Empresa]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: integer  // Corrigido para 'integer'
+ *         description: ID of the company
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: Company not found
+ */
+app.get('/empresa/:id', getEmpresa);
+/**
+ * @swagger
+ * /empresa:
+ *   post:
+ *     summary: Create a new company
+ *     tags: [Empresa]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Empresas"
+ *     responses:
+ *       201:
+ *         description: Company created
+ */
+app.post('/empresa', authenticateToken, createEmpresa);
 
-  /**
-   * @swagger
-   * /Allempresa:
-   *   post:
-   *     summary: Create a new company
-   *     tags: [Empresa]
-   *     requestBody:
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: "#/components/schemas/Empresas"
-   *     responses:
-   *       201:
-   *         description: Company created
-   */
-  app.post('/empresa', verifyTokenMiddleware, createEmpresa);
+/**
+ * @swagger
+ * /empresa/{id}:
+ *   put:
+ *     summary: Update a company by ID
+ *     tags: [Empresa]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: integer  // Corrigido para 'integer'
+ *         description: ID of the company
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/Empresas"
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: Company not found
+ */
+app.put('/empresa/:id', authenticateToken, updateEmpresa);
 
-  /**
-   * @swagger
-   * /empresa/{id}:
-   *   put:
-   *     summary: Update a company by ID
-   *     tags: [Empresa]
-   *     parameters:
-   *       - name: id
-   *         in: path
-   *         required: true
-   *         type: string
-   *         description: ID of the company
-   *     requestBody:
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: "#/components/schemas/Empresas"
-   *     responses:
-   *       200:
-   *         description: Successful operation
-   *       404:
-   *         description: Company not found
-   */
-  app.put('/empresa/:id', verifyTokenMiddleware, updateEmpresa);
-
-  /**
-   * @swagger
-   * /empresa/{id}:
-   *   delete:
-   *     summary: Delete a company by ID
-   *     tags: [Empresa]
-   *     parameters:
-   *       - name: id
-   *         in: path
-   *         required: true
-   *         type: string
-   *         description: ID of the company
-   *     responses:
-   *       200:
-   *         description: Successful operation
-   *       404:
-   *         description: Company not found
-   */
-  app.delete('/empresa/:id', verifyTokenMiddleware, deleteEmpresa);
-};
+/**
+ * @swagger
+ * /empresa/{id}:
+ *   delete:
+ *     summary: Delete a company by ID
+ *     tags: [Empresa]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: integer  // Corrigido para 'integer'
+ *         description: ID of the company
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *       404:
+ *         description: Company not found
+ */
+app.delete('/empresa/:id', authenticateToken, deleteEmpresa);
+}
 
 export default empresaRoute;

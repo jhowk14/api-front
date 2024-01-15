@@ -55,4 +55,9 @@ export default class PedidoRepository {
     });
     return { pedido };
   }
+  async deletePedido(id: string): Promise<void> {
+    await prisma.pedido.delete({
+      where: { id }
+    });
+  }
 }

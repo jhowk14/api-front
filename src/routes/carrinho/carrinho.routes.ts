@@ -39,7 +39,7 @@
  *           type: string
  *           format: date-time
  *           description: Data e hora da última atualização do Carrinho
-
+ * 
  *     Produto:
  *       type: object
  *       properties:
@@ -83,7 +83,7 @@
  *           type: number
  *           nullable: true
  *           description: ID do Produto (opcional, usado para atualização)
- *
+ * 
  *     ProdutoValoresTipo:
  *       type: object
  *       properties:
@@ -107,7 +107,7 @@
  *           type: string
  *           format: date-time
  *           description: Data e hora da última atualização do Produto Valores Tipo
- *
+ * 
  *     CarrinhoData:
  *       type: object
  *       properties:
@@ -117,7 +117,6 @@
  *           type: array
  *           items:
  *             $ref: "#/components/schemas/Produto"
- *
  */
 
 import { Application } from 'express';
@@ -147,6 +146,8 @@ const carrinhoRoute = (app: Application) => {
    *   post:
    *     summary: Create a new shopping cart
    *     tags: [Carrinho]
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -170,6 +171,8 @@ const carrinhoRoute = (app: Application) => {
    *         required: true
    *         type: string
    *         description: ID of the shopping cart
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -193,6 +196,8 @@ const carrinhoRoute = (app: Application) => {
    *         required: true
    *         type: string
    *         description: ID of the shopping cart
+   *     security:
+   *       - BearerAuth: []
    *     responses:
    *       200:
    *         description: Successful operation
@@ -213,6 +218,8 @@ const carrinhoRoute = (app: Application) => {
    *         required: true
    *         type: string
    *         description: ID of the shopping cart
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -238,6 +245,8 @@ const carrinhoRoute = (app: Application) => {
    *         required: true
    *         type: string
    *         description: ID of the shopping cart
+   *     security:
+   *       - BearerAuth: []
    *     responses:
    *       200:
    *         description: Successful operation
@@ -252,6 +261,8 @@ const carrinhoRoute = (app: Application) => {
    *   delete:
    *     summary: Delete a shopping cart by ID
    *     tags: [Carrinho]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -272,6 +283,8 @@ const carrinhoRoute = (app: Application) => {
    *   get:
    *     summary: Get a list of all shopping carts
    *     tags: [Carrinho]
+   *     security:
+   *       - BearerAuth: []
    *     responses:
    *       200:
    *         description: Successful operation
@@ -286,27 +299,29 @@ const carrinhoRoute = (app: Application) => {
    *   put:
    *     summary: Update a shopping cart
    *     tags: [Carrinho]
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
    *           schema:
- *             type: object
- *             properties:
- *               carrinho:
- *                 type: object
- *                 properties:
- *                   CarID:
- *                     type: number
- *                     description: ID do Carrinho
- *                   CarValorTotal:
- *                     type: number
- *                     description: Valor total do Carrinho
- *               qtd:
- *                 type: number
- *                 nullable: true
- *                 description: Quantidade do Carrinho (pode ser nulo)
- *               data:
- *                 $ref: "#/components/schemas/CarrinhoItem"
+   *             type: object
+   *             properties:
+   *               carrinho:
+   *                 type: object
+   *                 properties:
+   *                   CarID:
+   *                     type: number
+   *                     description: ID do Carrinho
+   *                   CarValorTotal:
+   *                     type: number
+   *                     description: Valor total do Carrinho
+   *               qtd:
+   *                 type: number
+   *                 nullable: true
+   *                 description: Quantidade do Carrinho (pode ser nulo)
+   *               data:
+   *                 $ref: "#/components/schemas/CarrinhoItem"
    *     responses:
    *       200:
    *         description: Successful operation

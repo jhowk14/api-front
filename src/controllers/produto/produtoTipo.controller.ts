@@ -29,9 +29,13 @@ export async function getProdutoValoresTipoById(req: Request, res: Response) {
 
 export async function createProdutoValoresTipo(req: Request, res: Response) {
     try {
-        const data = req.body;
-        const novoProdutoValoresTipo = await produtoValoresTipoRepository.createProdutoValoresTipo(data);
-        res.status(201).json(novoProdutoValoresTipo);
+        if(req.user.adm){
+            const data = req.body;
+            const novoProdutoValoresTipo = await produtoValoresTipoRepository.createProdutoValoresTipo(data);
+            res.status(201).json(novoProdutoValoresTipo);
+        }else{
+            res.status(401).json({error: 'sem permisão'});
+        }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criar valores do produto: ' + error });
     }
@@ -39,6 +43,7 @@ export async function createProdutoValoresTipo(req: Request, res: Response) {
 
 export async function updateProdutoValoresTipo(req: Request, res: Response) {
     try {
+        if(req.user.adm){
         const { id } = req.params;
         const data = req.body;
         const produtoValoresTipoAtualizado = await produtoValoresTipoRepository.updateProdutoValoresTipo(parseInt(id), data);
@@ -48,6 +53,9 @@ export async function updateProdutoValoresTipo(req: Request, res: Response) {
         } else {
             res.status(404).json({ error: 'Valores do Produto não encontrados' });
         }
+    }else{
+        res.status(401).json({error: 'sem permisão'});
+        }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar valores do produto: ' + error });
     }
@@ -55,6 +63,7 @@ export async function updateProdutoValoresTipo(req: Request, res: Response) {
 
 export async function deleteProdutoValoresTipo(req: Request, res: Response) {
     try {
+        if(req.user.adm){
         const { id } = req.params;
         const produtoValoresTipoExcluido = await produtoValoresTipoRepository.deleteProdutoValoresTipo(parseInt(id));
 
@@ -62,6 +71,9 @@ export async function deleteProdutoValoresTipo(req: Request, res: Response) {
             res.status(200).json(produtoValoresTipoExcluido);
         } else {
             res.status(404).json({ error: 'Valores do Produto não encontrados' });
+        }
+    }else{
+            res.status(401).json({error: 'sem permisão'});
         }
     } catch (error) {
         res.status(500).json({ error: 'Erro ao excluir valores do produto: ' + error });

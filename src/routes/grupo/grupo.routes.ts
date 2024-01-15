@@ -34,6 +34,7 @@
 import { Application } from 'express';
 import { getGrupo, getGrupoid, createGrupo, updateGrupo, deleteGrupo } from '../../controllers/grupo/grupo.controller';
 import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
+import { authenticateToken } from '../../middleware/admMiddleware';
 
 const grupoRoute = (app: Application) => {
   /**
@@ -42,6 +43,8 @@ const grupoRoute = (app: Application) => {
    *   get:
    *     summary: Get a group by ID
    *     tags: [Grupo]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -62,6 +65,8 @@ const grupoRoute = (app: Application) => {
    *   get:
    *     summary: Get a group by ID Empresa
    *     tags: [Grupo]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -82,6 +87,8 @@ const grupoRoute = (app: Application) => {
    *   post:
    *     summary: Create a new group
    *     tags: [Grupo]
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -91,7 +98,7 @@ const grupoRoute = (app: Application) => {
    *       201:
    *         description: Group created
    */
-  app.post('/grupo', verifyTokenMiddleware, createGrupo);
+  app.post('/grupo', authenticateToken, createGrupo);
 
   /**
    * @swagger
@@ -99,6 +106,8 @@ const grupoRoute = (app: Application) => {
    *   put:
    *     summary: Update a group by ID
    *     tags: [Grupo]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -117,7 +126,7 @@ const grupoRoute = (app: Application) => {
    *         description: Group not found
    */
   
-  app.put('/grupo/:id', verifyTokenMiddleware, updateGrupo);
+  app.put('/grupo/:id', authenticateToken, updateGrupo);
 
   /**
    * @swagger
@@ -125,6 +134,8 @@ const grupoRoute = (app: Application) => {
    *   delete:
    *     summary: Delete a group by ID
    *     tags: [Grupo]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -137,7 +148,7 @@ const grupoRoute = (app: Application) => {
    *       404:
    *         description: Group not found
    */
-  app.delete('/grupo/:id', verifyTokenMiddleware, deleteGrupo);
+  app.delete('/grupo/:id', authenticateToken, deleteGrupo);
 };
 
 export default grupoRoute;

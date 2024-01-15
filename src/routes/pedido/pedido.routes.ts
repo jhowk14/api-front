@@ -112,15 +112,19 @@
  */
 
 import { Application } from 'express';
-import { createPedido, getPedidoById, updatePedido } from '../../controllers/pedido/pedido.controller';
+import { createPedido, deletePedido, getPedidoById, updatePedido } from '../../controllers/pedido/pedido.controller';
+import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
 
 const pedidoRoute = (app: Application) => {
+  
   /**
    * @swagger
    * /pedido:
    *   post:
    *     summary: Create a new order
    *     tags: [Pedido]
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -130,7 +134,8 @@ const pedidoRoute = (app: Application) => {
    *       201:
    *         description: Order created
    */
-  app.post('/pedido', createPedido);
+
+  app.post('/pedido', verifyTokenMiddleware, createPedido);
 
   /**
    * @swagger
@@ -150,6 +155,7 @@ const pedidoRoute = (app: Application) => {
    *       404:
    *         description: Order not found
    */
+
   app.get('/pedido/:id', getPedidoById);
 
   /**
@@ -175,7 +181,31 @@ const pedidoRoute = (app: Application) => {
    *       404:
    *         description: Order not found
    */
+
   app.put('/pedido/:id', updatePedido);
+
+  /**
+ * @swagger
+ * /pedido/{id}:
+ *   delete:
+ *     summary: Delete an order by ID
+ *     tags: [Pedido]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: string
+ *         description: ID of the order to delete
+ *     responses:
+ *       204:
+ *         description: Order successfully deleted
+ *       404:
+ *         description: Order not found
+ */
+
+app.delete('/pedido/:id', deletePedido);
 };
 
 export default pedidoRoute;

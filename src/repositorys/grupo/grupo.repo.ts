@@ -54,7 +54,7 @@ export default class GrupoRepository {
     }
 
     // Atualiza um grupo existente
-    async updateGrupo(id: number, data: { /* Campos a serem atualizados */ }) {
+    async updateGrupo(id: number, data: Partial<Grupos>) {
         try {
             const grupoAtualizado = await prisma.grupos.update({
                 where: {

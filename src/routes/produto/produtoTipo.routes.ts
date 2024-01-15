@@ -7,6 +7,7 @@ import {
   updateProdutoValoresTipo,
 } from '../../controllers/produto/produtoTipo.controller';
 import { verifyTokenMiddleware } from '../../middleware/verifyTokenMiddleware';
+import { authenticateToken } from '../../middleware/admMiddleware';
 
 /**
  * @swagger
@@ -22,6 +23,8 @@ const produtoValoresTipoRoute = (app: Application) => {
    *   get:
    *     summary: Get all product values types
    *     tags: [Produto Valores Tipos]
+   *     security:
+   *       - BearerAuth: []
    *     responses:
    *       200:
    *         description: Successful operation
@@ -36,6 +39,8 @@ const produtoValoresTipoRoute = (app: Application) => {
    *   get:
    *     summary: Get a product values type by ID
    *     tags: [Produto Valores Tipos]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -56,6 +61,8 @@ const produtoValoresTipoRoute = (app: Application) => {
    *   post:
    *     summary: Create a new product values type
    *     tags: [Produto Valores Tipos]
+   *     security:
+   *       - BearerAuth: []
    *     requestBody:
    *       content:
    *         application/json:
@@ -65,7 +72,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       201:
    *         description: Product values type created
    */
-  app.post('/produtoValoresTipos', verifyTokenMiddleware, createProdutoValoresTipo);
+  app.post('/produtoValoresTipos', authenticateToken, createProdutoValoresTipo);
 
   /**
    * @swagger
@@ -73,6 +80,8 @@ const produtoValoresTipoRoute = (app: Application) => {
    *   put:
    *     summary: Update a product values type by ID
    *     tags: [Produto Valores Tipos]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -90,7 +99,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: Product values type not found
    */
-  app.put('/produtoValoresTipos/:id', verifyTokenMiddleware, updateProdutoValoresTipo);
+  app.put('/produtoValoresTipos/:id', authenticateToken, updateProdutoValoresTipo);
 
   /**
    * @swagger
@@ -98,6 +107,8 @@ const produtoValoresTipoRoute = (app: Application) => {
    *   delete:
    *     summary: Delete a product values type by ID
    *     tags: [Produto Valores Tipos]
+   *     security:
+   *       - BearerAuth: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -110,7 +121,7 @@ const produtoValoresTipoRoute = (app: Application) => {
    *       404:
    *         description: Product values type not found
    */
-  app.delete('/produtoValoresTipos/:id', verifyTokenMiddleware,  deleteProdutoValoresTipo);
+  app.delete('/produtoValoresTipos/:id', authenticateToken, deleteProdutoValoresTipo);
 };
 
 export default produtoValoresTipoRoute;

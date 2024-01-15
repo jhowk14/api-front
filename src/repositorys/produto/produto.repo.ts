@@ -24,6 +24,22 @@ export default class ProduroRepository {
             throw new ApiError('Erro ao acessar os dados: ' + e, 401); 
         }
     }
+    async getProduroByEmpresaRepo(id: number){
+        try {
+            let currentTime = new Date()
+            currentTime.setUTCHours(currentTime.getUTCHours() - 3);
+
+            const task = await prisma.produtos.findMany({
+                where:{
+                    ProdEmpresa: id
+                }
+            })
+            return task;
+        } catch (e) {
+            console.log(e)
+            throw new ApiError('Erro ao acessar os dados: ' + e, 401); 
+        }
+    }
     async getComplementosRepo(id: number){
         try {
             let currentTime = new Date()
